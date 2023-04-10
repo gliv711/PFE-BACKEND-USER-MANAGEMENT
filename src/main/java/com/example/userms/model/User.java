@@ -9,7 +9,8 @@ import lombok.ToString;
 
 import javax.persistence.*;
 
-@Entity @NoArgsConstructor @AllArgsConstructor @Data @ToString
+@Entity @NoArgsConstructor @AllArgsConstructor @Data
+@Table(name= "user_info")
 public class User {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id ;
