@@ -1,6 +1,6 @@
 package com.example.userms.services.Impl;
 
-import com.example.userms.model.User;
+import com.example.userms.entity.User;
 import com.example.userms.repository.UserRepository;
 import com.example.userms.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +24,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void deleteByIduser(Long id) {
-        userRepository.deleteById(id);
+    public void deleteByIduser(Long Id) {
+        userRepository.deleteById(Id);
     }
+
+
+
+
+
 }

@@ -1,11 +1,10 @@
-package com.example.userms.model;
+package com.example.userms.entity;
 
 
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 import javax.persistence.*;
 
@@ -13,11 +12,14 @@ import javax.persistence.*;
 @Table(name= "user_info")
 public class User {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id ;
-    private String nom ;
-    private String prenom;
-    private String email ;
-    private String mdp ;
+    private Long Id ;
+    private String LastName ;
+    private String Name;
+    @Column(name = "Email")
+    private String Email ;
+    @Column(name = "password")
+
+    private String password ;
 
     private String Role;
 

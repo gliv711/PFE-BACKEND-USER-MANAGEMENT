@@ -1,7 +1,6 @@
 package com.example.userms.services;
 
-import com.example.userms.model.User;
-import org.springframework.web.bind.annotation.PathVariable;
+import com.example.userms.entity.User;
 
 import java.util.List;
 
