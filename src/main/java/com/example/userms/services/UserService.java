@@ -10,5 +10,6 @@ public interface UserService {
     List<User> getAll();
 
     void deleteByIduser(Long id );
+    public User login (String email,String password);
 
-}
+    }

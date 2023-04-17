@@ -42,6 +42,8 @@ public class UserMsApplication {
         User u3 = new User(null, "jelidi", "dali", "dalijelidi@gmail.com", "123","Employeur");
         User u4 = new User(null, "Hedhli", "khalil", "hedhlikhalil@gmail.com", "123","Employeur");
         User admin = new User(null, "admin", "admin", "admin@admin.com", "admin","admin");
+        User root = new User(null, "root", "root", "root", "root","root");
+
 
         return args -> {
             UserRepository.save(u1);
@@ -49,6 +51,7 @@ public class UserMsApplication {
             UserRepository.save(u3);
             UserRepository.save(u4);
             UserRepository.save(admin);
+            UserRepository.save(root);
 
 
         };

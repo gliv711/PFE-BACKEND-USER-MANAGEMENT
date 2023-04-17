@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping(value = "USER-MANAGEMENT/api")
@@ -49,7 +50,19 @@ public class UserController {
 
 
 
+    @PostMapping("/login")
+    public ResponseEntity<User> login(@RequestBody Map<String, String> credentials) {
+        String email = credentials.get("email");
+        String password = credentials.get("password");
 
+        User user = userService.login(email, password);
+
+        if (user != null) {
+            return new ResponseEntity<>(user, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+    }
 
 
 }
