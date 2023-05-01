@@ -52,7 +52,7 @@ public class UserMsApplication {
                 "123",
                 "cite ouali",
                 "55630765",
-                "administrateur",
+                "Administrateur",
                 null,
                 "Mfarrej",
                 "Neder",

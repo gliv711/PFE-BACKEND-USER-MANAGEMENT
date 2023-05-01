@@ -23,7 +23,7 @@ public class User extends Lambda {
     private String region ;
     private Date BirthDate;
     private Date StartofStudy;
-    private Date EndofStudy;
+    private Date EndofStudy;    
     private Date StartofWork;
     private Date EndofWork;
     private String university ;
