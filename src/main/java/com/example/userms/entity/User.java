@@ -10,13 +10,10 @@ import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
 import java.util.Date;
-<<<<<<< Updated upstream
 
 
  @Table(name= "user_info")@Entity @NoArgsConstructor @Data
 public class User extends Lambda {
-=======
->>>>>>> Stashed changes
 
     private String LastName ;
     private String Name;
