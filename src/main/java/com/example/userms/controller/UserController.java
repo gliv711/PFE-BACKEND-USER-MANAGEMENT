@@ -1,32 +1,67 @@
 package com.example.userms.controller;
 
-import com.example.userms.model.User;
-import com.example.userms.repository.UserRepository;
+import com.example.userms.entity.User;
+import com.example.userms.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.util.List;
+import java.util.Map;
 
 @RestController
-@RequestMapping(value = "/api")
+@RequestMapping(value = "USER-MANAGEMENT/api")
+@CrossOrigin
 public class UserController {
     @Autowired
-    UserRepository userRepository ;
+     private UserService userService;
+    @GetMapping("/user/all")
+    public ResponseEntity<List<User>> getAll() {
+        List<User> users = userService.getAll();
+
+        return new ResponseEntity<>(users, HttpStatus.OK);
+    }
 
     @PostMapping("/user")
-    public void user(@RequestBody User user){
-        userRepository.save(user);
+    public ResponseEntity<Void> SaveUser(@RequestBody User user) {
+        userService.SaveUser(user);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setLocation(URI.create("/user/" + user.getId()));
+        return new ResponseEntity<>(headers, HttpStatus.CREATED);
+    }
+    @DeleteMapping("/user/{Id}")
+    public void deleteByIduser(@PathVariable(name="Id") Long Id) {
+        userService.deleteByIduser(Id);
     }
 
-    @DeleteMapping("/user/{id}")
-    public void user(@PathVariable(name="id") Long id ){
-        userRepository.deleteById(id);
+
+    @GetMapping("/forAdmin")
+    public String ForAdmin(){
+        return "this url is only accesible to admin " ;
+    }
+
+    @GetMapping("/forUser")
+    public String ForUser(){
+        return "this url is only accesible to user " ;
     }
 
 
-    @GetMapping("/user/all")
-    public List<User> getAll(){
-        return userRepository.findAll();
+
+    @PostMapping("/login")
+    public ResponseEntity<User> login(@RequestBody Map<String, String> credentials) {
+        String email = credentials.get("email");
+        String password = credentials.get("password");
+
+        User user = userService.login(email, password);
+
+        if (user != null) {
+            return new ResponseEntity<>(user, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
     }
 
 
