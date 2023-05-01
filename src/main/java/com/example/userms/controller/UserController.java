@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.net.URI;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "USER-MANAGEMENT/api")
@@ -37,6 +38,12 @@ public class UserController {
         userService.deleteByIduser(Id);
     }
 
+    @GetMapping("/user/{Id}")
+    public Optional<User> getbyId(@PathVariable(name="Id") Long Id){
+        return userService.findbyId(Id);
+    }
+
+
 
     @GetMapping("/forAdmin")
     public String ForAdmin(){
@@ -48,7 +55,10 @@ public class UserController {
         return "this url is only accesible to user " ;
     }
 
-
+    @GetMapping("/user/count")
+    public long UserCounter(){
+        return userService.count();
+    }
 
     @PostMapping("/login")
     public ResponseEntity<User> login(@RequestBody Map<String, String> credentials) {

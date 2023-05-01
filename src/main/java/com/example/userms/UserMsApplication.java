@@ -12,6 +12,7 @@ import org.springframework.web.filter.CorsFilter;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Date;
 
 @SpringBootApplication
 public class UserMsApplication {
@@ -37,23 +38,13 @@ public class UserMsApplication {
     }
     @Bean
     CommandLineRunner commandLineRunner (UserRepository UserRepository){
-        User u1 = new User(null, "mfarrej", "neder", "nedermfarrej@gmail.com", "123","Employée");
-        User u2 = new User(null, "Naghmouchi", "karim", "karimnaghmouchi@gmail.com", "123","Employeur");
-        User u3 = new User(null, "jelidi", "dali", "dalijelidi@gmail.com", "123","Employeur");
-        User u4 = new User(null, "Hedhli", "khalil", "hedhlikhalil@gmail.com", "123","Employeur");
-        User admin = new User(null, "admin", "admin", "admin@admin.com", "admin","admin");
-        User root = new User(null, "root", "root", "root", "root","root");
+
+
+        User u1 = new User(null,"nedermfarrej@gmail.com","123","cite ouali","55630765","administrateur",null,"Mfarrej","Neder","IT","PARIS",new Date(),new Date(),new Date(),new Date(),new Date(),"FSB");
 
 
         return args -> {
             UserRepository.save(u1);
-            UserRepository.save(u2);
-            UserRepository.save(u3);
-            UserRepository.save(u4);
-            UserRepository.save(admin);
-            UserRepository.save(root);
-
-
         };
     }
 
