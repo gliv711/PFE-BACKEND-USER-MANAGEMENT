@@ -10,6 +10,10 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
@@ -38,9 +42,29 @@ public class UserMsApplication {
     }
     @Bean
     CommandLineRunner commandLineRunner (UserRepository UserRepository){
+        LocalDateTime localDateTime = LocalDateTime.now();
+        Date date = Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
 
 
-        User u1 = new User(null,"nedermfarrej@gmail.com","123","cite ouali","55630765","administrateur",null,"Mfarrej","Neder","IT","PARIS",new Date(),new Date(),new Date(),new Date(),new Date(),"FSB");
+        User u1 = new User(
+                null,
+                "nedermfarrej@gmail.com",
+                "123",
+                "cite ouali",
+                "55630765",
+                "administrateur",
+                null,
+                "Mfarrej",
+                "Neder",
+                "IT",
+                "PARIS",
+                date,
+                date,
+                date,
+                date,
+                date,
+                "FSB"
+        );
 
 
         return args -> {

@@ -16,7 +16,7 @@ import javax.persistence.*;
 public class Lambda {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public Long Id ;
+    public Long id ;
     @Column(name = "Email")
     public String email;
     @Column(name = "password")

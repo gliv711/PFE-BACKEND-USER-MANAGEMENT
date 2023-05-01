@@ -30,7 +30,7 @@ public class User extends Lambda {
 
 
     public User(Long id,String email,String password,String address,String phone_number,String role,String image,String LastName,String Name,
-                String domain,String region,Date Birthdate,Date StartofStudy,Date EndofStudy, Date StartofWork,Date EndofWork,String university){
+                String domain,String region,Date BirthDate,Date StartofStudy,Date EndofStudy, Date StartofWork,Date EndofWork,String university){
         super(id,email,password,address,phone_number,role,image);
 
         this.domain = domain;
