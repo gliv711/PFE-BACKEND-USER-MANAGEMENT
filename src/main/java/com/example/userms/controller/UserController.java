@@ -60,7 +60,7 @@ public class UserController {
         return userService.count();
     }
 
-    @PostMapping("/login")
+   /* @PostMapping("/login")
     public ResponseEntity<User> login(@RequestBody Map<String, String> credentials) {
         String email = credentials.get("email");
         String password = credentials.get("password");
@@ -72,7 +72,7 @@ public class UserController {
         } else {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
-    }
+    }*/
 
 
 }

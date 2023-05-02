@@ -30,11 +30,11 @@ public class UserServiceImpl implements UserService {
         userRepository.deleteById(Id);
     }
 
-    public User login (String email,String password){
-        return userRepository.findByEmailAndPassword(email,password);
-
-
-    }
+//    public User login (String email,String password){
+//        return userRepository.findByEmailAndPassword(email,password);
+//
+//
+//    }
 
     public long count(){
         return userRepository.count();

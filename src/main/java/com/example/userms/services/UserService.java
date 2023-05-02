@@ -11,7 +11,7 @@ public interface UserService {
     List<User> getAll();
 
     void deleteByIduser(Long id );
-     User login (String email,String password);
+//     User login (String email,String password);
      long count();
 
     Optional<User> findbyId(Long Id);

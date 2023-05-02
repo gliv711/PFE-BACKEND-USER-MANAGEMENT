@@ -14,7 +14,8 @@ import java.util.Date;
 
  @Table(name= "user_info")@Entity @NoArgsConstructor @Data
 public class User extends Lambda {
-
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id ;
     private String LastName ;
     private String Name;
     @Column(name="domain")
@@ -31,8 +32,9 @@ public class User extends Lambda {
 
     public User(Long id,String email,String password,String address,String phone_number,String role,String image,String LastName,String Name,
                 String domain,String region,Date BirthDate,Date StartofStudy,Date EndofStudy, Date StartofWork,Date EndofWork,String university){
-        super(id,email,password,address,phone_number,role,image);
 
+        super(email,password,address,phone_number,role,image);
+        this.id=id ;
         this.domain = domain;
         this.region = region;
         this.university = university;
