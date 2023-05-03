@@ -14,7 +14,6 @@ import javax.persistence.*;
 @MappedSuperclass
 public class Lambda {
 
-
     public String email;
 
     public String password;
@@ -22,7 +21,9 @@ public class Lambda {
     public String address ;
 
     public String phone_number ;
+
     public String role;
+
     @Lob
     public String image;
 
