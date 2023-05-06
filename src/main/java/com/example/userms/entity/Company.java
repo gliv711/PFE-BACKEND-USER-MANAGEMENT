@@ -16,6 +16,7 @@ public class Company extends Lambda {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id ;
     private String NameofCompany ;
+    private String DomaineofActivity ;
 
 
 }
