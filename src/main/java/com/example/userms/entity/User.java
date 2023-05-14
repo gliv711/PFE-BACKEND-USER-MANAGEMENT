@@ -17,6 +17,7 @@ public class User extends Lambda {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id ;
     private String LastName ;
+
     private String Name;
     @Column(name="domain")
     private String domain ;

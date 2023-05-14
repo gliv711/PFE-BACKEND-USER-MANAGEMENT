@@ -14,7 +14,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @RestController
-@RequestMapping(value = "USER-MANAGEMENT/api")
+@RequestMapping(value = "/api")
 @CrossOrigin
 public class UserController {
     @Autowired
@@ -25,6 +25,7 @@ public class UserController {
 
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
+
 
     @PostMapping("/user")
     public ResponseEntity<Void> SaveUser(@RequestBody User user) {
