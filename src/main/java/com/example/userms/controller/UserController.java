@@ -1,17 +1,22 @@
 package com.example.userms.controller;
 
-import com.example.userms.entity.User;
+import com.example.userms.entity.AppRole;
+import com.example.userms.entity.Client;
 import com.example.userms.services.UserService;
+import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.net.URI;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
+
+import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
 @RestController
 @RequestMapping(value = "/api")
@@ -20,27 +25,36 @@ public class UserController {
     @Autowired
      private UserService userService;
     @GetMapping("/user/all")
-    public ResponseEntity<List<User>> getAll() {
-        List<User> users = userService.getAll();
+    public ResponseEntity<List<Client>> getAll() {
+
+        List<Client> users = userService.getAll();
 
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
 
     @PostMapping("/user")
-    public ResponseEntity<Void> SaveUser(@RequestBody User user) {
-        userService.SaveUser(user);
+    public ResponseEntity<Void> SaveUser(@RequestBody Client client) {
+        userService.SaveUser(client);
         HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(URI.create("/user/" + user.getId()));
+        headers.setLocation(URI.create("/user/" + client.getId()));
         return new ResponseEntity<>(headers, HttpStatus.CREATED);
     }
+    @PostMapping("/AddRole")
+    public ResponseEntity<Void> AddRole(@RequestBody AppRole appRole) {
+        userService.AddRole(appRole);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setLocation(URI.create("/AddRole/" + appRole.getId()));
+        return new ResponseEntity<>(headers, HttpStatus.CREATED);
+    }
+
     @DeleteMapping("/user/{Id}")
     public void deleteByIduser(@PathVariable(name="Id") Long Id) {
         userService.deleteByIduser(Id);
     }
 
     @GetMapping("/user/{Id}")
-    public Optional<User> getbyId(@PathVariable(name="Id") Long Id){
+    public Optional<Client> getbyId(@PathVariable(name="Id") Long Id){
         return userService.findbyId(Id);
     }
 
@@ -75,5 +89,21 @@ public class UserController {
         }
     }*/
 
+    @PostMapping("/AddRoleToClient")
+    public ResponseEntity<Void>AddRoleToClient (@RequestBody RoleTouserFORM roleTouserFORM) {
+        userService.addRoletoUser(roleTouserFORM.getEmail(),roleTouserFORM.getRoleName());
+        HttpHeaders headers = new HttpHeaders();
+        return new ResponseEntity<>(headers, HttpStatus.CREATED);
+    }
+//    @PostMapping("/AddRoleToClient")
+//    public void refreshtoken (HttpServletRequest request, HttpServletResponse response) {
+//        String authorizationHeader=request.getHeader(AUTHORIZATION);
+//
+//    }
 
+}
+@Data  class RoleTouserFORM {
+
+    private String email;
+    private String roleName;
 }
