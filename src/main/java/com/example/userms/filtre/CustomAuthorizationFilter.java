@@ -36,7 +36,7 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        if(request.getServletPath().equals("/api/login")){
+        if(request.getServletPath().equals("/api/login") ||(request.getServletPath().equals("/api/refreshtoken"))){
             filterChain.doFilter(request,response);
         }else {
             String authorizationHeader=request.getHeader(AUTHORIZATION);
@@ -49,7 +49,6 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
                     String email = decodedJWT.getSubject();
                     String x=StringUtils.newStringUtf8 (Base64.decodeBase64(decodedJWT.getPayload()));
                     x=x.substring(1,x.length()-1);
-                    System.out.println(Arrays.asList (Arrays.asList(x.split(",")).get(1).split(":")).get(1));
                      String role =Arrays.asList (Arrays.asList(x.split(",")).get(1).split(":")).get(1);
                      role=role.substring(1,role.length()-1);
                      Collection<SimpleGrantedAuthority> authorities =new ArrayList<>();
