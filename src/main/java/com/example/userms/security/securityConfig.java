@@ -19,8 +19,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import static org.springframework.http.HttpMethod.GET;
-import static org.springframework.http.HttpMethod.POST;
+import static org.springframework.http.HttpMethod.*;
 
 @Configuration
 @RequiredArgsConstructor
@@ -46,9 +45,12 @@ public class securityConfig extends WebSecurityConfigurerAdapter {
 
         http.csrf().disable();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-       http.authorizeRequests().antMatchers("/api/login/**","/api/refreshtoken/**","/api/user/**").permitAll();
-        http.authorizeRequests().antMatchers(GET,"/api/user/all/**").hasAnyAuthority("admin");
-        http.authorizeRequests().antMatchers(GET,"/api/user/**").hasAnyAuthority("superAdmin");
+       http.authorizeRequests().antMatchers("/api/login/**","/api/refreshtoken/**","/api/user").permitAll();
+        http.authorizeRequests().antMatchers(GET,"/api/user/all","/api/user/**","/api/user/count").hasAnyAuthority("admin");
+        http.authorizeRequests().antMatchers(GET,"/api/user/all","/api/user/**","/api/user/count").hasAnyAuthority("superAdmin");
+        http.authorizeRequests().antMatchers(DELETE,"/api/user/{Id}").hasAnyAuthority("superAdmin");
+        http.authorizeRequests().antMatchers(DELETE,"/api/user/{Id}").hasAnyAuthority("admin");
+
 
 
         http.authorizeRequests().anyRequest().authenticated();
