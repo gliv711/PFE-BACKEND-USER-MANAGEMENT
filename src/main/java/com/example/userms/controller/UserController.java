@@ -155,6 +155,10 @@ public class UserController {
             throw new RuntimeException("refresh token is missing");
         }
     }
+    @GetMapping("/user/{email}")
+    public Client getUserByEmail(@PathVariable("email") String email){
+        return userService.loadUserByemail(email);
+    }
     }
 
 
