@@ -1,5 +1,6 @@
 package com.example.userms.services;
 
+import com.example.userms.entity.AppRole;
 import com.example.userms.entity.User;
 
 import java.util.List;
@@ -15,4 +16,9 @@ public interface UserService {
      long count();
 
     Optional<User> findbyId(Long Id);
-    }
+    AppRole AddRole(AppRole appRole);
+    void addRoletoUser(String username,String roleName );
+    User loadUserByemail(String email);
+
+
+}

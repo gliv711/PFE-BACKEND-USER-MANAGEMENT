@@ -1,7 +1,10 @@
 package com.example.userms.controller;
 
+import com.example.userms.entity.AppRole;
 import com.example.userms.entity.User;
+import com.example.userms.enums.Role;
 import com.example.userms.services.UserService;
+import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -34,6 +37,21 @@ public class UserController {
         headers.setLocation(URI.create("/user/" + user.getId()));
         return new ResponseEntity<>(headers, HttpStatus.CREATED);
     }
+    @PostMapping("/addRole")
+    public ResponseEntity<Void> addRole(@RequestBody AppRole appRole) {
+        userService.AddRole(appRole);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setLocation(URI.create("/addRole/" + appRole.getId()));
+        return new ResponseEntity<>(headers, HttpStatus.CREATED);
+    }
+    @PostMapping("/addRoletouser")
+    public ResponseEntity<Void> addRoleToUser(@RequestBody RoleUserForm RoleUserForm ) {
+        userService.addRoletoUser(RoleUserForm.getUsername(),RoleUserForm.getRoleName());
+        HttpHeaders headers = new HttpHeaders();
+       // headers.setLocation(URI.create("/addRole/" + appRole.getId()));
+        return new ResponseEntity<>(headers, HttpStatus.CREATED);
+    }
+
     @DeleteMapping("/user/{Id}")
     public void deleteByIduser(@PathVariable(name="Id") Long Id) {
         userService.deleteByIduser(Id);
@@ -76,4 +94,9 @@ public class UserController {
     }*/
 
 
+}
+@Data
+class RoleUserForm{
+    private String username ;
+    private String roleName ;
 }

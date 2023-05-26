@@ -1,11 +1,15 @@
 package com.example.userms;
 
+import com.example.userms.entity.AppRole;
 import com.example.userms.entity.User;
 import com.example.userms.repository.UserRepository;
+import com.example.userms.services.UserService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
@@ -14,6 +18,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
@@ -23,6 +28,10 @@ public class UserMsApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(UserMsApplication.class, args);
+    }
+   @Bean
+   PasswordEncoder passwordEncoder (){
+        return new BCryptPasswordEncoder();
     }
 
     @Bean
@@ -41,18 +50,19 @@ public class UserMsApplication {
         return new CorsFilter(urlBasedCorsConfigurationSource);
     }
     @Bean
-    CommandLineRunner commandLineRunner (UserRepository UserRepository){
+    CommandLineRunner commandLineRunner (UserService userService ){
         LocalDateTime localDateTime = LocalDateTime.now();
         Date date = Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
 
 
         User u1 = new User(
-                null,
+
                 "nedermfarrej@gmail.com",
                 "123",
                 "cite ouali",
                 "55630765",
                 "Administrateur",
+                null,
                 null,
                 "Mfarrej",
                 "Neder",
@@ -63,16 +73,19 @@ public class UserMsApplication {
                 date,
                 date,
                 date,
-                "FSB"
+                "FSB",
+                new ArrayList<>()
+
         );
 
         User u2 = new User(
-                null,
+
                 "johndoe@gmail.com",
                 "456",
                 "123 Main St",
                 "555-1234",
                 "Utilisateur",
+                null,
                 null,
                 "John",
                 "Doe",
@@ -83,16 +96,17 @@ public class UserMsApplication {
                 new Date(),
                 new Date(),
                 new Date(),
-                "NYU"
+                "NYU" ,new ArrayList<>()
         );
 
         User u3 = new User(
-                null,
+
                 "jane.smith@gmail.com",
                 "789",
                 "456 Park Ave",
                 "555-5678",
                 "Entreprise",
+                null,
                 null,
                 "Jane",
                 "Smith",
@@ -103,15 +117,16 @@ public class UserMsApplication {
                 new Date(),
                 new Date(),
                 new Date(),
-                "LSE"
+                "LSE" ,new ArrayList<>() 
         );
         User u4 = new User(
-                null,
+
                 "janedoe@example.com",
                 "password456",
                 "456 Elm St",
                 "555-987-6543",
                 "Entreprise",
+                null,
                 null,
                 "Jane",
                 "Doe",
@@ -122,35 +137,27 @@ public class UserMsApplication {
                 new Date(2022, 8, 15),
                 new Date(2023, 7, 15),
                 new Date(),
-                "UCLA"
+                "UCLA",new ArrayList<>()
         );
 
-        User u5 = new User(
-                null,
-                "bobsmith@example.com",
-                "password789",
-                "789 Oak St",
-                "555-555-5555",
-                "Administrateur",
-                null,
-                "Bob",
-                "Smith",
-                "Human Resources",
-                "Chicago",
-                new Date(2022, 6, 1),
-                new Date(2023, 5, 31),
-                new Date(2022, 7, 15),
-                new Date(2023, 5, 15),
-                new Date(),
-                "UIC"
-        );
+
+
+
+
 
         return args -> {
-            UserRepository.save(u1);
-            UserRepository.save(u2);
-            UserRepository.save(u3);
-            UserRepository.save(u4);
-            UserRepository.save(u5);
+            userService.AddRole(new AppRole(1,"user"));
+            userService.AddRole(new AppRole(2,"admin"));
+            userService.AddRole(new AppRole(3,"superAdmin"));
+
+            userService.SaveUser(u1);
+            userService.SaveUser(u2);
+            userService.SaveUser(u3);
+            userService.SaveUser(u4);
+
+                    //userService.addRoletoUser("Doe","superAdmin");
+            //userService.addRoletoUser("neder","admin");
+          // userService.addRoletoUser("slim","user");
 
 
 
