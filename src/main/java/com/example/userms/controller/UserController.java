@@ -106,13 +106,13 @@ public class UserController {
         }
     }*/
 
-    @PostMapping("/AddRoleToClient")
+    @PostMapping("/user/AddRoleToClient")
     public ResponseEntity<Void>AddRoleToClient (@RequestBody RoleTouserFORM roleTouserFORM) {
         userService.addRoletoUser(roleTouserFORM.getEmail(),roleTouserFORM.getRoleName());
         HttpHeaders headers = new HttpHeaders();
         return new ResponseEntity<>(headers, HttpStatus.CREATED);
     }
-    @GetMapping("/refreshtoken")
+    @PostMapping("/user/refreshtoken")
     public void refreshtoken (HttpServletRequest request, HttpServletResponse response) throws IOException {
         String authorizationHeader=request.getHeader(AUTHORIZATION);
         if(authorizationHeader != null && authorizationHeader.startsWith("Bearer ")){
