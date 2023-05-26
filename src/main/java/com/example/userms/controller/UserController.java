@@ -6,6 +6,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.example.userms.entity.AppRole;
 import com.example.userms.entity.Client;
+import com.example.userms.services.Impl.EmailService;
 import com.example.userms.services.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Data;
@@ -38,6 +39,8 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @CrossOrigin
 @Slf4j
 public class UserController {
+    @Autowired
+    private EmailService emailService ;
     @Autowired
      private UserService userService;
     @GetMapping("/user/all")
@@ -74,17 +77,40 @@ public class UserController {
         return userService.findbyId(Id);
     }
 
+    /*@PostMapping("/user/reset-password/{email")
+    public ResponseEntity<String> resetPassword(@PathVariable("email") String email) {
+    Client c = userService.loadUserByemail(email);
+    if (c!=null){
 
-
-    @GetMapping("/forAdmin")
-    public String ForAdmin(){
-        return "this url is only accesible to admin " ;
     }
 
-    @GetMapping("/forUser")
-    public String ForUser(){
-        return "this url is only accesible to user " ;
+    }*/
+    @PostMapping("/user/send-email/{email}")
+    public ResponseEntity<String> sendEmail(@PathVariable("email") String email) {
+        // Example usage: Sending an email
+        String to = email;
+        String subject = "Réinitialisation du mot de passe";
+        String body = "<html>"
+                + "<body>"
+                + "<p>Cher utilisateur,</p>"
+                + "<p>Nous avons reçu une demande de réinitialisation de votre mot de passe. Veuillez cliquer sur le lien ci-dessous pour procéder au changement de votre mot de passe :</p>"
+                + "<p><a href=\"http://localhost:4200/reset-password\">Réinitialiser le mot de passe</a></p>"
+                + "<p>Si vous n'avez pas demandé cette réinitialisation de mot de passe, veuillez ignorer cet e-mail.</p>"
+                + "<p>Cordialement,<br>"
+                + "Ennajim</p>"
+                + "</body>"
+                + "</html>";
+
+        if (userService.loadUserByemail(email) != null) {
+            emailService.sendEmail(to, subject, body);
+            return ResponseEntity.ok("Email envoyé avec succès");
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Utilisateur introuvable");
     }
+
+
+
+
 
     @GetMapping("/user/count")
     public long UserCounter(){

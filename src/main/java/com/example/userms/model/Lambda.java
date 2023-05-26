@@ -1,6 +1,7 @@
 package com.example.userms.model;
 
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,7 +17,7 @@ import javax.persistence.*;
 public class Lambda  {
 
     public String email;
-
+     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     public String password;
 
     public String address ;
