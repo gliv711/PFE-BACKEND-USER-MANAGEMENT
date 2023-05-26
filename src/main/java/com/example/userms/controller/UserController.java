@@ -76,15 +76,6 @@ public class UserController {
 
 
 
-    @GetMapping("/forAdmin")
-    public String ForAdmin(){
-        return "this url is only accesible to admin " ;
-    }
-
-    @GetMapping("/forUser")
-    public String ForUser(){
-        return "this url is only accesible to user " ;
-    }
 
     @GetMapping("/user/count")
     public long UserCounter(){
