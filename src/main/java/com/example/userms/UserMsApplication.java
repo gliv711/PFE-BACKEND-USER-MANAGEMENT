@@ -49,10 +49,7 @@ public class UserMsApplication {
         urlBasedCorsConfigurationSource.registerCorsConfiguration("/**", corsConfiguration);
         return new CorsFilter(urlBasedCorsConfigurationSource);
     }
-    @Bean
-    PasswordEncoder passwordEncoder(){
-        return new BCryptPasswordEncoder();
-    }
+
     @Bean
     CommandLineRunner commandLineRunner (UserService userService){
         LocalDateTime localDateTime = LocalDateTime.now();
