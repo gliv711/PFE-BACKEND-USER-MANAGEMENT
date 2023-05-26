@@ -1,23 +1,37 @@
 package com.example.userms;
 
-import com.example.userms.entity.User;
+import com.example.userms.entity.AppRole;
+import com.example.userms.entity.Client;
 import com.example.userms.repository.UserRepository;
+import com.example.userms.services.UserService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
+import java.util.Date;
 
 @SpringBootApplication
+@EnableSwagger2
 public class UserMsApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(UserMsApplication.class, args);
+    }
+   @Bean
+   PasswordEncoder passwordEncoder (){
+        return new BCryptPasswordEncoder();
     }
 
     @Bean
@@ -35,23 +49,133 @@ public class UserMsApplication {
         urlBasedCorsConfigurationSource.registerCorsConfiguration("/**", corsConfiguration);
         return new CorsFilter(urlBasedCorsConfigurationSource);
     }
-    @Bean
-    CommandLineRunner commandLineRunner (UserRepository UserRepository){
-        User u1 = new User(null, "mfarrej", "neder", "nedermfarrej@gmail.com", "123","Employée");
-        User u2 = new User(null, "Naghmouchi", "karim", "karimnaghmouchi@gmail.com", "123","Employeur");
-        User u3 = new User(null, "jelidi", "dali", "dalijelidi@gmail.com", "123","Employeur");
-        User u4 = new User(null, "Hedhli", "khalil", "hedhlikhalil@gmail.com", "123","Employeur");
-        User admin = new User(null, "admin", "admin", "admin@admin.com", "admin","admin");
-        User root = new User(null, "root", "root", "root", "root","root");
 
+    @Bean
+    CommandLineRunner commandLineRunner (UserService userService){
+        LocalDateTime localDateTime = LocalDateTime.now();
+        Date date = Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
+
+
+        Client u1 = new Client(
+
+                "nedermfarrej@gmail.com",
+                "123",
+                "cite ouali",
+                "55630765",
+                "Administrateur",
+                null,
+                null,
+                "Mfarrej",
+                "Neder",
+                "IT",
+                "PARIS",
+                date,
+                date,
+                date,
+                date,
+                date,
+                "FSB",new ArrayList<>()
+        );
+
+        Client u2 = new Client(
+
+                "johndoe@gmail.com",
+                "456",
+                "123 Main St",
+                "555-1234",
+                "Utilisateur",
+                null,
+                null,
+                "John",
+                "Doe",
+                "Marketing",
+                "New York",
+                new Date(),
+                new Date(),
+                new Date(),
+                new Date(),
+                new Date(),
+                "NYU",
+                new ArrayList<>()
+        );
+
+        Client u3 = new Client(
+
+                "jane.smith@gmail.com",
+                "789",
+                "456 Park Ave",
+                "555-5678",
+                "Entreprise",
+                null,
+                null,
+                "Jane",
+                "Smith",
+                "Finance",
+                "London",
+                new Date(),
+                new Date(),
+                new Date(),
+                new Date(),
+                new Date(),
+                "LSE",new ArrayList<>()
+        );
+        Client u4 = new Client(
+
+                "janedoe@example.com",
+                "password456",
+                "456 Elm St",
+                "555-987-6543",
+                "Entreprise",
+                null,
+                null,
+                "Jane",
+                "Doe",
+                "Finance",
+                "Los Angeles",
+                new Date(2022, 8, 1),
+                new Date(2023, 7, 31),
+                new Date(2022, 8, 15),
+                new Date(2023, 7, 15),
+                new Date(),
+                "UCLA",new ArrayList<>()
+        );
+
+        Client u5 = new Client(
+
+                "bobsmith@example.com",
+                "password789",
+                "789 Oak St",
+                "555-555-5555",
+                "Administrateur",
+                null,
+                null,
+                "Bob",
+                "Smith",
+                "Human Resources",
+                "Chicago",
+                new Date(2022, 6, 1),
+                new Date(2023, 5, 31),
+                new Date(2022, 7, 15),
+                new Date(2023, 5, 15),
+                new Date(),
+                "UIC",new ArrayList<>()
+        );
 
         return args -> {
-            UserRepository.save(u1);
-            UserRepository.save(u2);
-            UserRepository.save(u3);
-            UserRepository.save(u4);
-            UserRepository.save(admin);
-            UserRepository.save(root);
+            userService.AddRole(new AppRole(1,"user"));
+            userService.AddRole(new AppRole(2,"admin"));
+            userService.AddRole(new AppRole(3,"superAdmin"));
+
+            userService.SaveUser(u1);
+            userService.SaveUser(u2);
+            userService.SaveUser(u3);
+            userService.SaveUser(u4);
+            userService.SaveUser(u5);
+            userService.addRoletoUser("bobsmith@example.com","user");
+            userService.addRoletoUser("janedoe@example.com","admin");
+            userService.addRoletoUser("nedermfarrej@gmail.com","superAdmin");
+
+
 
 
         };
