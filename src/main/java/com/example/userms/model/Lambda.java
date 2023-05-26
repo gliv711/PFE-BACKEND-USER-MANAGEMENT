@@ -13,7 +13,8 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Data
 @MappedSuperclass
-public class Lambda {
+@Builder
+public class Lambda  {
 
     public String email;
      @JsonProperty(access = JsonProperty.Access.READ_ONLY)

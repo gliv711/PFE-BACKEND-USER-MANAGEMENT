@@ -1,29 +1,29 @@
 package com.example.userms;
 
 import com.example.userms.entity.AppRole;
-import com.example.userms.entity.User;
+import com.example.userms.entity.Client;
 import com.example.userms.repository.UserRepository;
 import com.example.userms.services.UserService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Date;
 
 @SpringBootApplication
+@EnableSwagger2
 public class UserMsApplication {
 
     public static void main(String[] args) {
@@ -50,12 +50,16 @@ public class UserMsApplication {
         return new CorsFilter(urlBasedCorsConfigurationSource);
     }
     @Bean
-    CommandLineRunner commandLineRunner (UserService userService ){
+    PasswordEncoder passwordEncoder(){
+        return new BCryptPasswordEncoder();
+    }
+    @Bean
+    CommandLineRunner commandLineRunner (UserService userService){
         LocalDateTime localDateTime = LocalDateTime.now();
         Date date = Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
 
 
-        User u1 = new User(
+        Client u1 = new Client(
 
                 "nedermfarrej@gmail.com",
                 "123",
@@ -73,12 +77,10 @@ public class UserMsApplication {
                 date,
                 date,
                 date,
-                "FSB",
-                new ArrayList<>()
-
+                "FSB",new ArrayList<>()
         );
 
-        User u2 = new User(
+        Client u2 = new Client(
 
                 "johndoe@gmail.com",
                 "456",
@@ -96,10 +98,11 @@ public class UserMsApplication {
                 new Date(),
                 new Date(),
                 new Date(),
-                "NYU" ,new ArrayList<>()
+                "NYU",
+                new ArrayList<>()
         );
 
-        User u3 = new User(
+        Client u3 = new Client(
 
                 "jane.smith@gmail.com",
                 "789",
@@ -117,9 +120,9 @@ public class UserMsApplication {
                 new Date(),
                 new Date(),
                 new Date(),
-                "LSE" ,new ArrayList<>() 
+                "LSE",new ArrayList<>()
         );
-        User u4 = new User(
+        Client u4 = new Client(
 
                 "janedoe@example.com",
                 "password456",
@@ -140,10 +143,26 @@ public class UserMsApplication {
                 "UCLA",new ArrayList<>()
         );
 
+        Client u5 = new Client(
 
-
-
-
+                "bobsmith@example.com",
+                "password789",
+                "789 Oak St",
+                "555-555-5555",
+                "Administrateur",
+                null,
+                null,
+                "Bob",
+                "Smith",
+                "Human Resources",
+                "Chicago",
+                new Date(2022, 6, 1),
+                new Date(2023, 5, 31),
+                new Date(2022, 7, 15),
+                new Date(2023, 5, 15),
+                new Date(),
+                "UIC",new ArrayList<>()
+        );
 
         return args -> {
             userService.AddRole(new AppRole(1,"user"));
@@ -154,10 +173,11 @@ public class UserMsApplication {
             userService.SaveUser(u2);
             userService.SaveUser(u3);
             userService.SaveUser(u4);
+            userService.SaveUser(u5);
+            userService.addRoletoUser("bobsmith@example.com","user");
+            userService.addRoletoUser("janedoe@example.com","admin");
+            userService.addRoletoUser("nedermfarrej@gmail.com","superAdmin");
 
-                    //userService.addRoletoUser("Doe","superAdmin");
-            //userService.addRoletoUser("neder","admin");
-          // userService.addRoletoUser("slim","user");
 
 
 
