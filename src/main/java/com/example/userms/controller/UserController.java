@@ -4,6 +4,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.example.userms.Dto.ClientDto;
 import com.example.userms.entity.AppRole;
 import com.example.userms.entity.Client;
 import com.example.userms.services.Impl.EmailService;
@@ -14,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.apache.tomcat.util.codec.binary.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +24,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import org.modelmapper.ModelMapper;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -34,15 +37,20 @@ import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.HttpStatus.FORBIDDEN;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
+
 @RestController
 @RequestMapping(value = "/api")
 @CrossOrigin
 @Slf4j
 public class UserController {
+
     @Autowired
-    private EmailService emailService ;
+    private ModelMapper modelMapper;
     @Autowired
-     private UserService userService;
+    private EmailService emailService;
+    @Autowired
+    private UserService userService;
+
     @GetMapping("/user/all")
     public ResponseEntity<List<Client>> getAll() {
 
@@ -59,6 +67,7 @@ public class UserController {
         headers.setLocation(URI.create("/user/" + client.getId()));
         return new ResponseEntity<>(headers, HttpStatus.CREATED);
     }
+
     @PostMapping("/AddRole")
     public ResponseEntity<Void> AddRole(@RequestBody AppRole appRole) {
         userService.AddRole(appRole);
@@ -68,12 +77,12 @@ public class UserController {
     }
 
     @DeleteMapping("/user/{Id}")
-    public void deleteByIduser(@PathVariable(name="Id") Long Id) {
+    public void deleteByIduser(@PathVariable(name = "Id") Long Id) {
         userService.deleteByIduser(Id);
     }
 
     @GetMapping("/user/{Id}")
-    public Optional<Client> getbyId(@PathVariable(name="Id") Long Id){
+    public Optional<Client> getbyId(@PathVariable(name = "Id") Long Id) {
         return userService.findbyId(Id);
     }
 
@@ -109,11 +118,8 @@ public class UserController {
     }
 
 
-
-
-
     @GetMapping("/user/count")
-    public long UserCounter(){
+    public long UserCounter() {
         return userService.count();
     }
 //
@@ -133,60 +139,72 @@ public class UserController {
     }*/
 
     @PostMapping("/user/AddRoleToClient")
-    public ResponseEntity<Void>AddRoleToClient (@RequestBody RoleTouserFORM roleTouserFORM) {
-        userService.addRoletoUser(roleTouserFORM.getEmail(),roleTouserFORM.getRoleName());
+    public ResponseEntity<Void> AddRoleToClient(@RequestBody RoleTouserFORM roleTouserFORM) {
+        userService.addRoletoUser(roleTouserFORM.getEmail(), roleTouserFORM.getRoleName());
         HttpHeaders headers = new HttpHeaders();
         return new ResponseEntity<>(headers, HttpStatus.CREATED);
     }
+
     @PostMapping("/user/refreshtoken")
-    public void refreshtoken (HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String authorizationHeader=request.getHeader(AUTHORIZATION);
-        if(authorizationHeader != null && authorizationHeader.startsWith("Bearer ")){
+    public void refreshtoken(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String authorizationHeader = request.getHeader(AUTHORIZATION);
+        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
             try {
                 String refresh_token = authorizationHeader.substring(7);
-                Algorithm algorithm=Algorithm.HMAC256("secret".getBytes());
+                Algorithm algorithm = Algorithm.HMAC256("secret".getBytes());
                 JWTVerifier verifier = JWT.require(algorithm).build();
-                DecodedJWT decodedJWT =verifier.verify(refresh_token);
+                DecodedJWT decodedJWT = verifier.verify(refresh_token);
                 String email = decodedJWT.getSubject();
-                Client client=userService.loadUserByemail(email);
-                String acces_token= JWT.create().withSubject(client.getEmail())
-                        .withExpiresAt(new Date(System.currentTimeMillis()+
-                                1*60*1000)).withIssuer(request.getRequestURI().toString())
-                        .withClaim("roles",client.getAppRoles().stream().map(AppRole::getRoleName ).collect(Collectors.joining()))
+                Client client = userService.loadUserByemail(email);
+                String acces_token = JWT.create().withSubject(client.getEmail())
+                        .withExpiresAt(new Date(System.currentTimeMillis() +
+                                1 * 60 * 1000)).withIssuer(request.getRequestURI().toString())
+                        .withClaim("roles", client.getAppRoles().stream().map(AppRole::getRoleName).collect(Collectors.joining()))
                         .sign(algorithm);
 
 //        response.setHeader("access_token",acces_token);
 //        response.setHeader("refresh_token",refresh_token);
-                Map<String,String> tokens =new HashMap<>();
-                tokens.put("access_token",acces_token);
-                tokens.put("refresh_token",refresh_token);
+                Map<String, String> tokens = new HashMap<>();
+                tokens.put("access_token", acces_token);
+                tokens.put("refresh_token", refresh_token);
                 response.setContentType(APPLICATION_JSON_VALUE);
-                new ObjectMapper().writeValue(response.getOutputStream(),tokens);
+                new ObjectMapper().writeValue(response.getOutputStream(), tokens);
 
 
-
-
-            } catch (Exception exception){
-                response.setHeader("error",exception.getMessage());
+            } catch (Exception exception) {
+                response.setHeader("error", exception.getMessage());
                 response.setStatus(FORBIDDEN.value());
                 //response.sendError(FORBIDDEN.value());
-                Map<String,String> error =new HashMap<>();
-                error.put("error_message",exception.getMessage());
+                Map<String, String> error = new HashMap<>();
+                error.put("error_message", exception.getMessage());
 
                 response.setContentType(APPLICATION_JSON_VALUE);
-                new ObjectMapper().writeValue(response.getOutputStream(),error);
+                new ObjectMapper().writeValue(response.getOutputStream(), error);
             }
 
-        }else {
+        } else {
             throw new RuntimeException("refresh token is missing");
         }
     }
-    @GetMapping("/user/email/{email}")
-    public Client getUserByEmail(@PathVariable("email") String email){
-        return userService.loadUserByemail(email);
-    }
-    }
 
+
+    @GetMapping("/user/email/{email}")
+    public ClientDto getUserByEmail(@PathVariable("email") String email) {
+        Client client = userService.getAll().stream()
+                .filter(c -> c.getEmail().equals(email))
+                .findFirst()
+                .orElse(null);
+
+        if (client != null) {
+            ModelMapper modelMapper = new ModelMapper();
+            ClientDto clientDto = modelMapper.map(client, ClientDto.class);
+            return clientDto;
+        } else {
+            return null;
+        }
+
+    }
+}
 
 @Data  class RoleTouserFORM {
 
