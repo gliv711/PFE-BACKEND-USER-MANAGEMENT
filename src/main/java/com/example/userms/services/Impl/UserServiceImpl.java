@@ -2,8 +2,10 @@ package com.example.userms.services.Impl;
 
 import com.example.userms.entity.AppRole;
 import com.example.userms.entity.Client;
+import com.example.userms.entity.Company;
 import com.example.userms.repository.RoleRepository;
 import com.example.userms.repository.UserRepository;
+import com.example.userms.repository.companyRepository;
 import com.example.userms.services.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -23,14 +25,16 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     private final UserRepository userRepository  ;
     private final RoleRepository roleRepository ;
     private final PasswordEncoder passwordEncoder;
+    private final companyRepository companyRepository;
 
 
 
-    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
+    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder, com.example.userms.repository.companyRepository companyRepository) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
 
         this.passwordEncoder = passwordEncoder;
+        this.companyRepository = companyRepository;
     }
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
@@ -51,8 +55,17 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public void SaveUser(Client client) {
 
-       client.setPassword(passwordEncoder.encode(client.getPassword()));
+     client.setPassword(passwordEncoder.encode(client.getPassword()));
+
+
         userRepository.save(client);
+    }
+
+    @Override
+    public void SaveCompany(Company company) {
+         company.setPassword(passwordEncoder.encode(company.getPassword()));
+
+        companyRepository.save(company);
     }
 
     @Override
@@ -91,6 +104,14 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         AppRole appRole=roleRepository.findByRoleName(roleName);
         user.getAppRoles().add(appRole);
     }
+
+    @Override
+    public void addRoletoCompany(String email, String roleName) {
+        Company company=companyRepository.findByEmail(email);
+        AppRole appRole=roleRepository.findByRoleName(roleName);
+        company.getAppRoles().add(appRole);
+    }
+
 
     @Override
     public Client loadUserByemail(String email) {

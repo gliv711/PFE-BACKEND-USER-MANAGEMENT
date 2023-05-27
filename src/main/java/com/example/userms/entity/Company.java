@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Collection;
 
 @Entity
 @NoArgsConstructor
@@ -17,6 +19,14 @@ public class Company extends Lambda {
     private Long id ;
     private String NameofCompany ;
     private String DomaineofActivity ;
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Collection<AppRole> appRoles=new ArrayList<>() ;
 
-
+    public Company(String email, String password, String address, String phone_number, String role, String image, Long id, String nameofCompany, String domaineofActivity, Collection<AppRole> appRoles) {
+        super(email, password, address, phone_number, role, image);
+        this.id = id;
+        NameofCompany = nameofCompany;
+        DomaineofActivity = domaineofActivity;
+        this.appRoles = appRoles;
+    }
 }
