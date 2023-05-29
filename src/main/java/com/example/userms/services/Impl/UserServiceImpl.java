@@ -40,15 +40,35 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         Client client=userRepository.findByEmail(email);
        if (client==null){
-           log.error("user not found in the database");
-           throw new UsernameNotFoundException("user not found in the database");
-       }else {
-           log.info("user  found in the database");
+           Company company = companyRepository.findByEmail(email);
+           if (company==null){
+               throw new RuntimeException("not foud");
+           }
+           Collection<SimpleGrantedAuthority> authorities=new ArrayList<>();
+           company.getAppRoles().forEach(appRole -> {
+               authorities.add(new SimpleGrantedAuthority(appRole.getRoleName()));
+           });
+           return new User(company.getEmail(),company.getPassword(),authorities);
        }
         Collection<SimpleGrantedAuthority> authorities=new ArrayList<>();
        client.getAppRoles().forEach(appRole -> {
            authorities.add(new SimpleGrantedAuthority(appRole.getRoleName()));
        });
+        return new User(client.getEmail(),client.getPassword(),authorities);
+    }
+    @Override
+    public UserDetails loadcompanyByUsername(String email) throws UsernameNotFoundException {
+        Client client=userRepository.findByEmail(email);
+        if (client==null){
+            log.error("user not found in the database");
+            throw new UsernameNotFoundException("user not found in the database");
+        }else {
+            log.info("user  found in the database");
+        }
+        Collection<SimpleGrantedAuthority> authorities=new ArrayList<>();
+        client.getAppRoles().forEach(appRole -> {
+            authorities.add(new SimpleGrantedAuthority(appRole.getRoleName()));
+        });
         return new User(client.getEmail(),client.getPassword(),authorities);
     }
 
@@ -58,14 +78,20 @@ public class UserServiceImpl implements UserService, UserDetailsService {
      client.setPassword(passwordEncoder.encode(client.getPassword()));
 
 
+
+
         userRepository.save(client);
+        addRoletoUser(client.getEmail(),"user");
+        System.out.println(userRepository.findByEmail(client.getEmail()));
     }
 
     @Override
     public void SaveCompany(Company company) {
          company.setPassword(passwordEncoder.encode(company.getPassword()));
-
         companyRepository.save(company);
+         addRoletoCompany(company.getEmail(),"company");
+        System.out.println(companyRepository.findByEmail(company.getEmail()));
+
     }
 
     @Override
@@ -110,6 +136,10 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         Company company=companyRepository.findByEmail(email);
         AppRole appRole=roleRepository.findByRoleName(roleName);
         company.getAppRoles().add(appRole);
+        companyRepository.save(company);
+        System.out.println(company);
+        companyRepository.save(company);
+        System.out.println(company);
     }
 
 
