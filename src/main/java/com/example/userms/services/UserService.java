@@ -16,6 +16,12 @@ public interface UserService {
     void SaveUser(Client client) ;
     void SaveCompany(Company company) ;
 
+<<<<<<< Updated upstream
+=======
+    void SaveUser(Client client) ;
+
+
+>>>>>>> Stashed changes
     List<Client> getAll();
 
     void deleteByIduser(Long id );
