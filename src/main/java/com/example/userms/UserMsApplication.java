@@ -1,5 +1,6 @@
 package com.example.userms;
 
+import com.example.userms.entity.Admin;
 import com.example.userms.entity.AppRole;
 import com.example.userms.entity.Client;
 import com.example.userms.entity.Company;
@@ -82,7 +83,7 @@ public class UserMsApplication {
                 null,
                 "Mfarrej",
                 "Neder",
-                "IT",
+                "informatique",
                 "PARIS",
                 date,
                 date,
@@ -175,6 +176,12 @@ public class UserMsApplication {
                 new Date(),
                 "UIC",new ArrayList<>()
         );
+        Admin a1 = new Admin(null,"admin","admin","admin adress","1111111",null,new ArrayList<>());
+
+
+
+
+
 
         return args -> {
             userService.AddRole(new AppRole(1,"user"));
@@ -189,6 +196,7 @@ public class UserMsApplication {
             userService.SaveUser(u4);
             userService.SaveUser(u5);
             userService.SaveCompany(c1);
+            userService.Saveadmin(a1);
 //            userService.addRoletoUser("hedhlikhalil144@gmail.com","company");
 //            userService.addRoletoUser("bobsmith@example.com","user");
 //            userService.addRoletoUser("janedoe@example.com","admin");
