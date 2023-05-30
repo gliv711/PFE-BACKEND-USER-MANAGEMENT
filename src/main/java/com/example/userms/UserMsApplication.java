@@ -2,6 +2,7 @@ package com.example.userms;
 
 import com.example.userms.entity.AppRole;
 import com.example.userms.entity.Client;
+import com.example.userms.entity.Company;
 import com.example.userms.repository.UserRepository;
 import com.example.userms.services.UserService;
 import org.springframework.boot.CommandLineRunner;
@@ -54,6 +55,20 @@ public class UserMsApplication {
     CommandLineRunner commandLineRunner (UserService userService){
         LocalDateTime localDateTime = LocalDateTime.now();
         Date date = Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
+        Company c1=new Company(
+                "hedhlikhalil14@gmail.com",
+                "khalil123",
+                "mateur",
+                "24894751",
+                "Administrateur",
+                null,
+                null,
+                "aikhalil",
+                "informatique",
+                new ArrayList<>()
+
+
+        );
 
 
         Client u1 = new Client(
@@ -101,7 +116,7 @@ public class UserMsApplication {
 
         Client u3 = new Client(
 
-                "jane.smith@gmail.com",
+                "hedhlikhalil144@gmail.com",
                 "789",
                 "456 Park Ave",
                 "555-5678",
@@ -165,15 +180,19 @@ public class UserMsApplication {
             userService.AddRole(new AppRole(1,"user"));
             userService.AddRole(new AppRole(2,"admin"));
             userService.AddRole(new AppRole(3,"superAdmin"));
+            userService.AddRole(new AppRole(4,"company"));
+
 
             userService.SaveUser(u1);
             userService.SaveUser(u2);
             userService.SaveUser(u3);
             userService.SaveUser(u4);
             userService.SaveUser(u5);
-            userService.addRoletoUser("bobsmith@example.com","user");
-            userService.addRoletoUser("janedoe@example.com","admin");
-            userService.addRoletoUser("nedermfarrej@gmail.com","superAdmin");
+            userService.SaveCompany(c1);
+//            userService.addRoletoUser("hedhlikhalil144@gmail.com","company");
+//            userService.addRoletoUser("bobsmith@example.com","user");
+//            userService.addRoletoUser("janedoe@example.com","admin");
+//            userService.addRoletoUser("nedermfarrej@gmail.com","admin");
 
 
 

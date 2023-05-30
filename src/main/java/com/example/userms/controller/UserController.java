@@ -5,8 +5,10 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.example.userms.Dto.ClientDto;
+import com.example.userms.entity.Admin;
 import com.example.userms.entity.AppRole;
 import com.example.userms.entity.Client;
+import com.example.userms.entity.Company;
 import com.example.userms.services.Impl.EmailService;
 import com.example.userms.services.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -62,9 +64,25 @@ public class UserController {
 
     @PostMapping("/user")
     public ResponseEntity<Void> SaveUser(@RequestBody Client client) {
+
         userService.SaveUser(client);
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(URI.create("/user/" + client.getId()));
+        return new ResponseEntity<>(headers, HttpStatus.CREATED);
+    }
+    @PostMapping("/company")
+    public ResponseEntity<Void> SaveCompany(@RequestBody Company company) {
+        userService.SaveCompany(company);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setLocation(URI.create("/user/" + company.getId()));
+        return new ResponseEntity<>(headers, HttpStatus.CREATED);
+    }
+    @PostMapping("/admin")
+    public ResponseEntity<Void> Saveadmin(@RequestBody Admin admin) {
+        userService.Saveadmin(admin);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setLocation(URI.create("/user/" + admin.getId()));
+        System.out.println(admin);
         return new ResponseEntity<>(headers, HttpStatus.CREATED);
     }
 
