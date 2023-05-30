@@ -52,19 +52,18 @@ public class Client extends Lambda {
         this.EndofStudy = EndofStudy;
         this.StartofWork = StartofWork;
         this.EndofWork = EndofWork;
-        this.appRoles = new ArrayList<>();
-        AppRole userRole = new AppRole(1,"user");
-        this.appRoles.add(userRole);
+
+
 
     }
-     public Client(String email, String password, String address, String phone_number, String role, String image, Long id, String lastName, String name, String domain, String region, Date birthDate, Date startofStudy, Date endofStudy, Date startofWork, Date endofWork, String university, Collection<AppRole> appRoles) {
+     public Client(String email, String password, String address, String phone_number, String role, String image, Long id, String lastName, String name, String domain, String region, Date BirthDate, Date startofStudy, Date endofStudy, Date startofWork, Date endofWork, String university, Collection<AppRole> appRoles) {
          super(email, password, address, phone_number, role, image);
          this.id = id;
          LastName = lastName;
          Name = name;
          this.domain = domain;
          this.region = region;
-         BirthDate = birthDate;
+        this.BirthDate = BirthDate;
          StartofStudy = startofStudy;
          EndofStudy = endofStudy;
          StartofWork = startofWork;

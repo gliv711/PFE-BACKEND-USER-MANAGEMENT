@@ -17,7 +17,6 @@ import javax.persistence.*;
 public class Lambda  {
 
     public String email;
-     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     public String password;
 
     public String address ;
