@@ -74,14 +74,14 @@ public class UserController {
     public ResponseEntity<Void> SaveCompany(@RequestBody Company company) {
         userService.SaveCompany(company);
         HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(URI.create("/user/" + company.getId()));
+        headers.setLocation(URI.create("/company/" + company.getId()));
         return new ResponseEntity<>(headers, HttpStatus.CREATED);
     }
     @PostMapping("/admin")
     public ResponseEntity<Void> Saveadmin(@RequestBody Admin admin) {
         userService.Saveadmin(admin);
         HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(URI.create("/user/" + admin.getId()));
+        headers.setLocation(URI.create("/admin/" + admin.getId()));
         System.out.println(admin);
         return new ResponseEntity<>(headers, HttpStatus.CREATED);
     }

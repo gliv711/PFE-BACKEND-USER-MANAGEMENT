@@ -146,8 +146,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         company.getAppRoles().add(appRole);
         companyRepository.save(company);
         System.out.println(company);
-        companyRepository.save(company);
-        System.out.println(company);
+
     }
 
 
