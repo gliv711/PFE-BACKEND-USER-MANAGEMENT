@@ -74,10 +74,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public void SaveUser(Client client) {
-<<<<<<< Updated upstream
-=======
 
->>>>>>> Stashed changes
 
      client.setPassword(passwordEncoder.encode(client.getPassword()));
        userRepository.save(client);
@@ -101,12 +98,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         addRoletoadmin(admin.getEmail(),"admin");
         System.out.println(companyRepository.findByEmail(admin.getEmail()));
 
-<<<<<<< Updated upstream
-=======
 
-
-
->>>>>>> Stashed changes
     }
 
     @Override
