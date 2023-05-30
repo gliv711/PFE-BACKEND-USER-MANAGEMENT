@@ -55,20 +55,20 @@ public class UserMsApplication {
     CommandLineRunner commandLineRunner (UserService userService){
         LocalDateTime localDateTime = LocalDateTime.now();
         Date date = Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
-//        Company c1=new Company(
-//                "hedhlikhalil14@gmail.com",
-//                "khalil123",
-//                "mateur",
-//                "24894751",
-//                "Administrateur",
-//                null,
-//                null,
-//                "aikhalil",
-//                "informatique",
-//                new ArrayList<>()
-//
-//
-//        );
+        Company c1=new Company(
+                "hedhlikhalil14@gmail.com",
+                "khalil123",
+                "mateur",
+                "24894751",
+                "Administrateur",
+                null,
+                null,
+                "aikhalil",
+                "informatique",
+                new ArrayList<>()
+
+
+        );
 
 
         Client u1 = new Client(
@@ -188,11 +188,11 @@ public class UserMsApplication {
             userService.SaveUser(u3);
             userService.SaveUser(u4);
             userService.SaveUser(u5);
-//            userService.SaveCompany(c1);
-            userService.addRoletoUser("hedhlikhalil144@gmail.com","company");
-            userService.addRoletoUser("bobsmith@example.com","user");
-            userService.addRoletoUser("janedoe@example.com","admin");
-            userService.addRoletoUser("nedermfarrej@gmail.com","superAdmin");
+            userService.SaveCompany(c1);
+//            userService.addRoletoUser("hedhlikhalil144@gmail.com","company");
+//            userService.addRoletoUser("bobsmith@example.com","user");
+//            userService.addRoletoUser("janedoe@example.com","admin");
+//            userService.addRoletoUser("nedermfarrej@gmail.com","admin");
 
 
 

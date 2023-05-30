@@ -1,5 +1,6 @@
 package com.example.userms.services;
 
+import com.example.userms.entity.Admin;
 import com.example.userms.entity.AppRole;
 import com.example.userms.entity.Client;
 import com.example.userms.entity.Company;
@@ -26,7 +27,10 @@ public interface UserService {
     void addRoletoUser(String email,String roleName );
     void addRoletoCompany(String email,String roleName );
     Client loadUserByemail(String email);
-    UserDetails loadcompanyByUsername(String email) throws UsernameNotFoundException;
+    void addRoletoadmin(String email,String roleName );
+    void Saveadmin(Admin admin) ;
+
+
 
 
 }
