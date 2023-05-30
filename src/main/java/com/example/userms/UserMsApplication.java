@@ -1,5 +1,6 @@
 package com.example.userms;
 
+import com.example.userms.entity.Admin;
 import com.example.userms.entity.AppRole;
 import com.example.userms.entity.Client;
 import com.example.userms.repository.UserRepository;
@@ -7,6 +8,7 @@ import com.example.userms.services.UserService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.kafka.KafkaProperties;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -54,6 +56,33 @@ public class UserMsApplication {
     CommandLineRunner commandLineRunner (UserService userService){
         LocalDateTime localDateTime = LocalDateTime.now();
         Date date = Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
+<<<<<<< Updated upstream
+=======
+        Admin admin =new Admin(
+                null,
+                "admin@gmail.com",
+                "admin1234@",
+                "bizerte",
+                "24894751",
+                null,
+                new ArrayList<>()
+
+        );
+        Company c1=new Company(
+                "hedhlikhalil14@gmail.com",
+                "khalil123",
+                "mateur",
+                "24894751",
+                "Administrateur",
+                null,
+                null,
+                "aikhalil",
+                "informatique",
+                new ArrayList<>()
+
+
+        );
+>>>>>>> Stashed changes
 
 
         Client u1 = new Client(
