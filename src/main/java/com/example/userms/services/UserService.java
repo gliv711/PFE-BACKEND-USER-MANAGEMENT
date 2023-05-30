@@ -12,13 +12,14 @@ import java.util.Optional;
 
 public interface UserService {
 
-
-    void SaveUser(Client client) ;
     void SaveCompany(Company company) ;
+
+    Client SaveUser(Client client) ;
+
 
     List<Client> getAll();
 
-    void deleteByIduser(Long id );
+    Client deleteByIduser(Long id );
     //     User login (String email,String password);
     long count();
 
