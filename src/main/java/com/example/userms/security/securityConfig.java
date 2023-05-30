@@ -26,7 +26,6 @@ import static org.springframework.http.HttpMethod.*;
 @EnableWebSecurity
 public class securityConfig extends WebSecurityConfigurerAdapter {
    private final UserDetailsService userDetailsService;
-   UserRepository userRepository;
 
 
     @Bean
@@ -55,7 +54,7 @@ public class securityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().antMatchers(DELETE,"/api/user/{Id}").hasAnyAuthority("admin");
 
 
-        http.authorizeRequests().anyRequest().permitAll();
+        http.authorizeRequests().anyRequest().authenticated();
         http.addFilter(customAuthenticationFilter);
         http.addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
 
