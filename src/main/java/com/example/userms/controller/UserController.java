@@ -283,7 +283,10 @@ public class UserController {
             return null;
         }    }
 
-
+    @DeleteMapping("/company/{Id}")
+    public void deleteByIdCompany(@PathVariable(name = "Id") Long Id) {
+        companyService.deleteByIdCompany(Id);
+    }
 }
 
 @Data  class RoleTouserFORM {

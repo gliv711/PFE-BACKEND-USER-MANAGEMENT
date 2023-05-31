@@ -28,5 +28,11 @@ public class CompanyServiceImpl implements CompanyService {
         return Optional.ofNullable(companyRepository.findByEmail(email));
     }
 
+    @Override
+    public Company deleteByIdCompany(Long id) {
+        companyRepository.deleteById(id);
+        return null;
+    }
+
 
 }

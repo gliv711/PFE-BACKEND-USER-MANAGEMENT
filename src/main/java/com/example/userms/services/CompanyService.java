@@ -1,5 +1,6 @@
 package com.example.userms.services;
 
+import com.example.userms.entity.Client;
 import com.example.userms.entity.Company;
 
 import java.util.List;
@@ -13,5 +14,6 @@ public interface CompanyService {
     Optional<Company> getCompanyById(Long id) ;
 
     Optional<Company> getCompanyByEmail(String email);
+    Company deleteByIdCompany(Long id );
 
 }
