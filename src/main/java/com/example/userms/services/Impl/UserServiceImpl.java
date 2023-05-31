@@ -170,4 +170,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         adminRepository.save(admin);
     }
 
+    @Override
+    public Admin getAdminByEmail(String email){
+        return adminRepository.findByEmail(email);
+    }
+
 }
