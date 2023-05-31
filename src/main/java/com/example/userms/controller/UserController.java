@@ -5,26 +5,21 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.example.userms.Dto.ClientDto;
+import com.example.userms.Dto.CompanyDto;
 import com.example.userms.entity.Admin;
 import com.example.userms.entity.AppRole;
 import com.example.userms.entity.Client;
 import com.example.userms.entity.Company;
+import com.example.userms.services.CompanyService;
 import com.example.userms.services.Impl.EmailService;
 import com.example.userms.services.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.tomcat.util.codec.binary.Base64;
-import org.apache.tomcat.util.codec.binary.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.modelmapper.ModelMapper;
 
@@ -53,6 +48,9 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private CompanyService companyService;
+
     @GetMapping("/user/all")
     public ResponseEntity<List<Client>> getAll() {
 
@@ -70,13 +68,8 @@ public class UserController {
         headers.setLocation(URI.create("/user/" + client.getId()));
         return new ResponseEntity<>(headers, HttpStatus.CREATED);
     }
-    @PostMapping("/company")
-    public ResponseEntity<Void> SaveCompany(@RequestBody Company company) {
-        userService.SaveCompany(company);
-        HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(URI.create("/company/" + company.getId()));
-        return new ResponseEntity<>(headers, HttpStatus.CREATED);
-    }
+
+
     @PostMapping("/admin")
     public ResponseEntity<Void> Saveadmin(@RequestBody Admin admin) {
         userService.Saveadmin(admin);
@@ -222,6 +215,43 @@ public class UserController {
         }
 
     }
+
+    @GetMapping("/company/all")
+    public List<Company> getAllCompany(){
+        return companyService.getAllC();
+    }
+
+    @GetMapping("/company/{id}")
+    public Optional<Company> GetCompanyById(@PathVariable("id") Long id){
+        return companyService.getCompanyById(id);
+    }
+
+    @PostMapping("/company")
+    public ResponseEntity<Void> SaveCompany(@RequestBody Company company) {
+        userService.SaveCompany(company);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setLocation(URI.create("/user/" + company.getId()));
+        return new ResponseEntity<>(headers, HttpStatus.CREATED);
+    }
+
+    @GetMapping("/company/email/{email}")
+    public CompanyDto getCompanyByEmail(@PathVariable("email") String email) {
+        Company company = companyService.getAllC().stream()
+                .filter(c -> c.getEmail().equals(email))
+                .findFirst()
+                .orElse(null);
+
+        if (company != null) {
+            ModelMapper modelMapper = new ModelMapper();
+            CompanyDto companyDto = modelMapper.map(company, CompanyDto.class);
+            return companyDto;
+        } else {
+            return null;
+        }
+
+    }
+
+
 }
 
 @Data  class RoleTouserFORM {
