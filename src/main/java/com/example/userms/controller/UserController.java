@@ -67,6 +67,12 @@ public class UserController {
 
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
+    @GetMapping("/admin/all")
+    public List<Admin> getAllAdmins() {
+
+        return adminService.getAllA();
+
+    }
 
 
     @PostMapping("/user")

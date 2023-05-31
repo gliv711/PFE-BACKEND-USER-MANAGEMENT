@@ -8,4 +8,6 @@ public interface AdminService {
 
 
     List<Admin> getAllA() ;
+
+
 }
