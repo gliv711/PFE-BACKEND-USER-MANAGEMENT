@@ -17,14 +17,8 @@ public class Admin {
     private Long id ;
     public String email;
     public String password;
-
     public String address ;
-
-
-
     public String phone_number ;
-
-
     @Lob
     public String image;
     @ManyToMany(fetch = FetchType.EAGER)

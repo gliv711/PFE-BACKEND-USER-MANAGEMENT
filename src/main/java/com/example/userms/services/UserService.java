@@ -34,6 +34,5 @@ public interface UserService {
     void Saveadmin(Admin admin) ;
 
 
-
-
+    Admin getAdminByEmail(String email);
 }

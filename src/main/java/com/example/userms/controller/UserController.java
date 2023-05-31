@@ -4,12 +4,15 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.example.userms.Dto.AdminDto;
 import com.example.userms.Dto.ClientDto;
 import com.example.userms.Dto.CompanyDto;
 import com.example.userms.entity.Admin;
 import com.example.userms.entity.AppRole;
 import com.example.userms.entity.Client;
 import com.example.userms.entity.Company;
+import com.example.userms.repository.AdminRepository;
+import com.example.userms.services.AdminService;
 import com.example.userms.services.CompanyService;
 import com.example.userms.services.Impl.EmailService;
 import com.example.userms.services.UserService;
@@ -50,6 +53,12 @@ public class UserController {
 
     @Autowired
     private CompanyService companyService;
+
+    @Autowired
+    private AdminService adminService ;
+
+
+
 
     @GetMapping("/user/all")
     public ResponseEntity<List<Client>> getAll() {
@@ -133,6 +142,7 @@ public class UserController {
     public long UserCounter() {
         return userService.count();
     }
+
 //
 
    /* @PostMapping("/login")
@@ -216,6 +226,8 @@ public class UserController {
 
     }
 
+
+
     @GetMapping("/company/all")
     public List<Company> getAllCompany(){
         return companyService.getAllC();
@@ -250,6 +262,20 @@ public class UserController {
         }
 
     }
+    @GetMapping("/admin/email/{email}")
+    public AdminDto getAdminbyEmail(@PathVariable("email") String email) {
+        Admin admin = adminService.getAllA().stream()
+                .filter(c -> c.getEmail().equals(email))
+                .findFirst()
+                .orElse(null);
+
+        if (admin != null) {
+            ModelMapper modelMapper = new ModelMapper();
+            AdminDto adminDto  = modelMapper.map(admin, AdminDto.class);
+            return adminDto;
+        } else {
+            return null;
+        }    }
 
     @DeleteMapping("/company/{Id}")
     public void deleteByIdCompany(@PathVariable(name = "Id") Long Id) {
