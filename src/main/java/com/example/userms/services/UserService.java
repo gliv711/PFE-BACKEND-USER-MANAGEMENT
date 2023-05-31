@@ -15,7 +15,7 @@ public interface UserService {
     void SaveCompany(Company company) ;
 
 
-    Client SaveUser(Client client) ;
+    void SaveUser(Client client) ;
 
 
 

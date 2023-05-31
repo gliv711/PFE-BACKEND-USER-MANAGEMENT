@@ -51,7 +51,7 @@ public class UserServiceImplTest {
         when(userService.SaveUser(expectedClient)).thenReturn(expectedClient);
 
         // Save the client
-        Client savedClient = userService.SaveUser(expectedClient);
+        void savedClient = userService.SaveUser(expectedClient);
 
         // Assert that the savedClient is not null and has a valid ID
         Assertions.assertNotNull(savedClient);
@@ -72,47 +72,47 @@ public class UserServiceImplTest {
 
     @Test
     public void shouldUpdateUserWithSuccess() {
-        // Create a new Client object
-        Client expectedClient = new Client();
-        expectedClient.setName("Cat test");
-        expectedClient.setPassword("Hello");
-        expectedClient.setId(1L);
-        expectedClient.setLastName("Last Name");
-        expectedClient.setDomain("example.com");
-        expectedClient.setRegion("Region");
-        expectedClient.setBirthDate(new Date());
-        expectedClient.setStartofStudy(new Date());
-        expectedClient.setEndofStudy(new Date());
-        expectedClient.setStartofWork(new Date());
-        expectedClient.setEndofWork(new Date());
-        expectedClient.setUniversity("University");
-
-        UserService userService = Mockito.mock(UserService.class);
-
-        when(userService.SaveUser(any(Client.class))).thenReturn(expectedClient);
-
-        Client savedClient = userService.SaveUser(expectedClient);
-
-        Client ClientToUpdate = savedClient;
-        ClientToUpdate.setName("Cat update");
-
-        savedClient = userService.SaveUser(ClientToUpdate);
-
-        Assertions.assertNotNull(savedClient);
-        Assertions.assertNotNull(savedClient.getId());
-
-        assertEquals(ClientToUpdate.getName(), savedClient.getName());
-        assertEquals(ClientToUpdate.getLastName(), savedClient.getLastName());
-        assertEquals(ClientToUpdate.getDomain(), savedClient.getDomain());
-        assertEquals(ClientToUpdate.getRegion(), savedClient.getRegion());
-        assertEquals(ClientToUpdate.getBirthDate(), savedClient.getBirthDate());
-        assertEquals(ClientToUpdate.getStartofStudy(), savedClient.getStartofStudy());
-        assertEquals(ClientToUpdate.getEndofStudy(), savedClient.getEndofStudy());
-        assertEquals(ClientToUpdate.getStartofWork(), savedClient.getStartofWork());
-        assertEquals(ClientToUpdate.getEndofWork(), savedClient.getEndofWork());
-        assertEquals(ClientToUpdate.getUniversity(), savedClient.getUniversity());
-
-    }*/
+//        // Create a new Client object
+//        Client expectedClient = new Client();
+//        expectedClient.setName("Cat test");
+//        expectedClient.setPassword("Hello");
+//        expectedClient.setId(1L);
+//        expectedClient.setLastName("Last Name");
+//        expectedClient.setDomain("example.com");
+//        expectedClient.setRegion("Region");
+//        expectedClient.setBirthDate(new Date());
+//        expectedClient.setStartofStudy(new Date());
+//        expectedClient.setEndofStudy(new Date());
+//        expectedClient.setStartofWork(new Date());
+//        expectedClient.setEndofWork(new Date());
+//        expectedClient.setUniversity("University");
+//
+//        UserService userService = Mockito.mock(UserService.class);
+//
+//        when(userService.SaveUser(any(Client.class))).thenReturn(expectedClient);
+//
+//        Client savedClient = userService.SaveUser(expectedClient);
+//
+//        Client ClientToUpdate = savedClient;
+//        ClientToUpdate.setName("Cat update");
+//
+//        savedClient = userService.SaveUser(ClientToUpdate);
+//
+//        Assertions.assertNotNull(savedClient);
+//        Assertions.assertNotNull(savedClient.getId());
+//
+//        assertEquals(ClientToUpdate.getName(), savedClient.getName());
+//        assertEquals(ClientToUpdate.getLastName(), savedClient.getLastName());
+//        assertEquals(ClientToUpdate.getDomain(), savedClient.getDomain());
+//        assertEquals(ClientToUpdate.getRegion(), savedClient.getRegion());
+//        assertEquals(ClientToUpdate.getBirthDate(), savedClient.getBirthDate());
+//        assertEquals(ClientToUpdate.getStartofStudy(), savedClient.getStartofStudy());
+//        assertEquals(ClientToUpdate.getEndofStudy(), savedClient.getEndofStudy());
+//        assertEquals(ClientToUpdate.getStartofWork(), savedClient.getStartofWork());
+//        assertEquals(ClientToUpdate.getEndofWork(), savedClient.getEndofWork());
+//        assertEquals(ClientToUpdate.getUniversity(), savedClient.getUniversity());
+//
+//    }*/
 
     }
 
