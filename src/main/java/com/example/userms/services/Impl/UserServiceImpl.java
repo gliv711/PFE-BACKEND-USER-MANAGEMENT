@@ -76,13 +76,14 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public Client SaveUser(Client client) {
 
 
+
      client.setPassword(passwordEncoder.encode(client.getPassword()));
        userRepository.save(client);
 
         addRoletoUser(client.getEmail(),"user");
        System.out.println(userRepository.findByEmail(client.getEmail()));
 
-  }
+    }
 
     @Override
     public void SaveCompany(Company company) {
@@ -102,6 +103,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
        client.setPassword(passwordEncoder.encode(client.getPassword()));
         userRepository.save(client);
         return client;
+
 
     }
 

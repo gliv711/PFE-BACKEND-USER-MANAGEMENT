@@ -17,16 +17,17 @@ import java.util.Collection;
 public class Company extends Lambda {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id ;
-    private String NameofCompany ;
-    private String DomaineofActivity ;
+    private String nameofCompany ;
+    private String domaineofActivity ;
+    private String nameofResponsible;
     @ManyToMany(fetch = FetchType.EAGER)
     private Collection<AppRole> appRoles=new ArrayList<>() ;
 
     public Company(String email, String password, String address, String phone_number, String role, String image, Long id, String nameofCompany, String domaineofActivity, Collection<AppRole> appRoles) {
         super(email, password, address, phone_number, role, image);
         this.id = id;
-        NameofCompany = nameofCompany;
-        DomaineofActivity = domaineofActivity;
+        this.nameofCompany = nameofCompany;
+        this.domaineofActivity = domaineofActivity;
         this.appRoles = appRoles;
     }
 }

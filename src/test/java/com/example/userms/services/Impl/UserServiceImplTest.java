@@ -30,6 +30,7 @@ public class UserServiceImplTest {
         MockitoAnnotations.initMocks(this);
     }
 
+
     @Test
     public void shouldSaveUserWithSuccess() {
         // Create a new Client object
@@ -110,7 +111,10 @@ public class UserServiceImplTest {
         assertEquals(ClientToUpdate.getStartofWork(), savedClient.getStartofWork());
         assertEquals(ClientToUpdate.getEndofWork(), savedClient.getEndofWork());
         assertEquals(ClientToUpdate.getUniversity(), savedClient.getUniversity());
+
+    }*/
+
     }
 
-}
+
 
