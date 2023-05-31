@@ -73,7 +73,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
 
     @Override
-    public void SaveUser(Client client) {
+    public Client SaveUser(Client client) {
+
 
 
      client.setPassword(passwordEncoder.encode(client.getPassword()));
@@ -99,6 +100,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         System.out.println(companyRepository.findByEmail(admin.getEmail()));
 
 
+       client.setPassword(passwordEncoder.encode(client.getPassword()));
+        userRepository.save(client);
+        return client;
+
+
     }
 
     @Override
@@ -107,8 +113,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public void deleteByIduser(Long Id) {
+    public Client deleteByIduser(Long Id) {
         userRepository.deleteById(Id);
+        return null;
     }
 
 //    public User login (String email,String password){
