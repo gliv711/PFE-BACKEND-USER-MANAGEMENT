@@ -5,8 +5,10 @@ import lombok.Data;
 @Data
 public class CompanyDto {
     private Long id ;
-    private String NameofCompany ;
-    private String DomaineofActivity ;
+    private String nameofCompany ;
+    private String domaineofActivity ;
+    private String nameofResponsible;
+    private String email ;
     private String address ;
     private String phone_number;
     private String image;
