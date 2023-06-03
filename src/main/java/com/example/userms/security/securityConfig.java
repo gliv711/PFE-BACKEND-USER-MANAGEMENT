@@ -45,13 +45,13 @@ public class securityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
-       http.authorizeRequests().antMatchers("/api/login/**","/api/user/refreshtoken","/api/user","/api/user/email/{email}","/api/company","/api/admin","/api/company/**","/**").permitAll();
+       http.authorizeRequests().antMatchers("/api/login/**","/api/user/refreshtoken","/api/user","/api/user/email/{email}","/api/company","/api/company/**","/api/user/check-email/{email}","/api/company/check-email/{email}").permitAll();
 
 
-        http.authorizeRequests().antMatchers(GET,"/api/user/all/**","/api/user/**","/api/user/count","/api/company/**").hasAnyAuthority("admin");
+        http.authorizeRequests().antMatchers(GET,"/api/user/all/**","/api/user/**","/api/user/count","/api/company/**","/api/admin/all","/api/admin/**").hasAnyAuthority("admin");
 
         http.authorizeRequests().antMatchers(DELETE,"/api/user/{Id}").hasAnyAuthority("superAdmin");
-        http.authorizeRequests().antMatchers(DELETE,"/api/user/{Id}").hasAnyAuthority("admin");
+        http.authorizeRequests().antMatchers(DELETE,"/api/user/{Id}","/api/admin/{Id}").hasAnyAuthority("admin");
 
 
         http.authorizeRequests().anyRequest().authenticated();

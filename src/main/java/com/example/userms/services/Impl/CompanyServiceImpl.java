@@ -1,5 +1,6 @@
 package com.example.userms.services.Impl;
 
+import com.example.userms.entity.Client;
 import com.example.userms.entity.Company;
 import com.example.userms.repository.companyRepository;
 import com.example.userms.services.CompanyService;
@@ -35,9 +36,19 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
+<<<<<<< Updated upstream
     public long count(){
         return companyRepository.count();
     }
 
+=======
+    public boolean checkIfCompanyEmailExists(String email) {
+        Company user = companyRepository.findByEmail(email);
+        return user != null;
+    }
+
+
+
+>>>>>>> Stashed changes
 
 }

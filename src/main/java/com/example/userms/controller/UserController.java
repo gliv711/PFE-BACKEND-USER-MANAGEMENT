@@ -85,14 +85,6 @@ public class UserController {
     }
 
 
-    @PostMapping("/admin")
-    public ResponseEntity<Void> Saveadmin(@RequestBody Admin admin) {
-        userService.Saveadmin(admin);
-        HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(URI.create("/admin/" + admin.getId()));
-        System.out.println(admin);
-        return new ResponseEntity<>(headers, HttpStatus.CREATED);
-    }
 
     @PostMapping("/AddRole")
     public ResponseEntity<Void> AddRole(@RequestBody AppRole appRole) {
@@ -234,6 +226,7 @@ public class UserController {
 
 
 
+
     @GetMapping("/company/all")
     public List<Company> getAllCompany(){
         return companyService.getAllC();
@@ -298,6 +291,27 @@ public class UserController {
     public void deleteByIdCompany(@PathVariable(name = "Id") Long Id) {
         companyService.deleteByIdCompany(Id);
     }
+    @PostMapping("/admin")
+    public ResponseEntity<Void> Saveadmin(@RequestBody Admin admin) {
+        userService.Saveadmin(admin);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setLocation(URI.create("/admin/" + admin.getId()));
+        System.out.println(admin);
+        return new ResponseEntity<>(headers, HttpStatus.CREATED);
+    }
+
+    @DeleteMapping("/admin/{Id}")
+    public void deleteByIdAdmin(@PathVariable(name = "Id") Long Id) {
+          adminService.deleteByIdadmin(Id) ;   }
+    @GetMapping("user/check-email/{email}")
+    public boolean checkUserEmailExists(@PathVariable String email) {
+        return userService.checkIfUserEmailExists(email);
+    }
+    @GetMapping("company/check-email/{email}")
+    public boolean checkcompanyEmailExists(@PathVariable String email) {
+        return companyService.checkIfCompanyEmailExists(email);
+    }
+
 }
 
 @Data  class RoleTouserFORM {

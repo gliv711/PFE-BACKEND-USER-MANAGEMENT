@@ -14,11 +14,24 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public List<Admin> getAllA() {
-         return adminRepository.findAll();
+
+        return adminRepository.findAll();
     }
 
+<<<<<<< Updated upstream
     @Override
     public long Count(){
         return adminRepository.count();
     }
+=======
+
+
+
+    @Override
+    public Admin deleteByIdadmin(Long id) {
+        adminRepository.deleteById(id);
+        return null;
+    }
+
+>>>>>>> Stashed changes
 }

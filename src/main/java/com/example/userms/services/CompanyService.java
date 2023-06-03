@@ -15,6 +15,8 @@ public interface CompanyService {
 
     Optional<Company> getCompanyByEmail(String email);
     Company deleteByIdCompany(Long id );
+    boolean checkIfCompanyEmailExists(String email);
+
 
     long count();
 

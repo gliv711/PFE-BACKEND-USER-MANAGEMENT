@@ -174,5 +174,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public Admin getAdminByEmail(String email){
         return adminRepository.findByEmail(email);
     }
+    public boolean checkIfUserEmailExists(String email) {
+        Client user = userRepository.findByEmail(email);
+        return user != null;
+    }
 
 }

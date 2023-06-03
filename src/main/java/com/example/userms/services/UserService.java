@@ -32,6 +32,8 @@ public interface UserService {
     Client loadUserByemail(String email);
     void addRoletoadmin(String email,String roleName );
     void Saveadmin(Admin admin) ;
+    boolean checkIfUserEmailExists(String email);
+
 
 
     Admin getAdminByEmail(String email);
