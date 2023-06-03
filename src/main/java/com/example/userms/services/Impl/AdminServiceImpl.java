@@ -16,4 +16,9 @@ public class AdminServiceImpl implements AdminService {
     public List<Admin> getAllA() {
          return adminRepository.findAll();
     }
+
+    @Override
+    public long Count(){
+        return adminRepository.count();
+    }
 }

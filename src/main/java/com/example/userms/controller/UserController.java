@@ -239,6 +239,17 @@ public class UserController {
         return companyService.getAllC();
     }
 
+    @GetMapping("/company/count")
+    public Long CompanyCount(){
+        return companyService.count();
+    }
+
+    @GetMapping("/admin/count")
+    public long AdminCount(){
+        return adminService.Count();
+    }
+
+
     @GetMapping("/company/{id}")
     public Optional<Company> GetCompanyById(@PathVariable("id") Long id){
         return companyService.getCompanyById(id);

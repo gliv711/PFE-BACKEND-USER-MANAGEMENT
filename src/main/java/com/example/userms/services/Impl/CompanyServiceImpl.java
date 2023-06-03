@@ -34,5 +34,10 @@ public class CompanyServiceImpl implements CompanyService {
         return null;
     }
 
+    @Override
+    public long count(){
+        return companyRepository.count();
+    }
+
 
 }

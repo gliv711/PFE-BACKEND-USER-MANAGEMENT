@@ -9,5 +9,5 @@ public interface AdminService {
 
     List<Admin> getAllA() ;
 
-
+    long Count() ;
 }

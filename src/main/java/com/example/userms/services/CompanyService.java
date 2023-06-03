@@ -16,4 +16,6 @@ public interface CompanyService {
     Optional<Company> getCompanyByEmail(String email);
     Company deleteByIdCompany(Long id );
 
+    long count();
+
 }
