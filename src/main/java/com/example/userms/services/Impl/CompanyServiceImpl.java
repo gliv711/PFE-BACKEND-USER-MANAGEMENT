@@ -36,12 +36,10 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
-<<<<<<< Updated upstream
     public long count(){
         return companyRepository.count();
     }
 
-=======
     public boolean checkIfCompanyEmailExists(String email) {
         Company user = companyRepository.findByEmail(email);
         return user != null;
@@ -49,6 +47,5 @@ public class CompanyServiceImpl implements CompanyService {
 
 
 
->>>>>>> Stashed changes
 
 }

@@ -176,7 +176,14 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
     public boolean checkIfUserEmailExists(String email) {
         Client user = userRepository.findByEmail(email);
-        return user != null;
+        Company company = companyRepository.findByEmail(email);
+        Admin admin = adminRepository.findByEmail(email);
+
+        if (user == null && company == null && admin == null) {
+            return false;
+        }
+
+        return true;
     }
 
 }

@@ -18,12 +18,10 @@ public class AdminServiceImpl implements AdminService {
         return adminRepository.findAll();
     }
 
-<<<<<<< Updated upstream
     @Override
     public long Count(){
         return adminRepository.count();
     }
-=======
 
 
 
@@ -33,5 +31,4 @@ public class AdminServiceImpl implements AdminService {
         return null;
     }
 
->>>>>>> Stashed changes
 }

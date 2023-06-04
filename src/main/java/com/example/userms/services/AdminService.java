@@ -10,12 +10,11 @@ public interface AdminService {
 
     List<Admin> getAllA() ;
 
-<<<<<<< Updated upstream
+
     long Count() ;
-=======
+
 
     Admin deleteByIdadmin(Long id );
 
 
->>>>>>> Stashed changes
 }
