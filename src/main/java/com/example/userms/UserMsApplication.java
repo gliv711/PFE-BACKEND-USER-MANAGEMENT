@@ -200,7 +200,7 @@ public class UserMsApplication {
         return args -> {
             userService.AddRole(new AppRole(1,"user"));
             userService.AddRole(new AppRole(2,"admin"));
-            userService.AddRole(new AppRole(3,"superAdmin"));
+            userService.AddRole(new AppRole(3,"super"));
             userService.AddRole(new AppRole(4,"company"));
 
 
@@ -211,10 +211,11 @@ public class UserMsApplication {
             userService.SaveUser(u5);
             userService.SaveCompany(c1);
             userService.Saveadmin(a1);
+            userService.addRoletoadmin("admin","super");
 //            userService.addRoletoUser("hedhlikhalil144@gmail.com","company");
 //            userService.addRoletoUser("bobsmith@example.com","user");
 //            userService.addRoletoUser("janedoe@example.com","admin");
-//            userService.addRoletoUser("nedermfarrej@gmail.com","admin");
+//            userService.addRoletoUser("nedermfarrej@gmail.com","super");
 
 
 
