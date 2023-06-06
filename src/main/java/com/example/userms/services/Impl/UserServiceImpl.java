@@ -1,13 +1,7 @@
 package com.example.userms.services.Impl;
 
-import com.example.userms.entity.Admin;
-import com.example.userms.entity.AppRole;
-import com.example.userms.entity.Client;
-import com.example.userms.entity.Company;
-import com.example.userms.repository.AdminRepository;
-import com.example.userms.repository.RoleRepository;
-import com.example.userms.repository.UserRepository;
-import com.example.userms.repository.companyRepository;
+import com.example.userms.entity.*;
+import com.example.userms.repository.*;
 import com.example.userms.services.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -17,8 +11,11 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
+import java.io.IOException;
 import java.util.*;
 
 @Service
@@ -29,16 +26,20 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     private final PasswordEncoder passwordEncoder;
     private final companyRepository companyRepository;
     private final AdminRepository adminRepository;
+    private final CustomFileRepository customFileRepository;
 
 
 
-    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder, com.example.userms.repository.companyRepository companyRepository, AdminRepository adminRepository) {
+
+    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder, com.example.userms.repository.companyRepository companyRepository, AdminRepository adminRepository,CustomFileRepository customFileRepository) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
 
         this.passwordEncoder = passwordEncoder;
         this.companyRepository = companyRepository;
         this.adminRepository = adminRepository;
+        this.customFileRepository = customFileRepository;
+
     }
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
@@ -71,25 +72,58 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
 
-
     @Override
     public void SaveUser(Client client) {
-
-
-
-     client.setPassword(passwordEncoder.encode(client.getPassword()));
-       userRepository.save(client);
-
+        client.setPassword(passwordEncoder.encode(client.getPassword()));
+        userRepository.save(client);
         addRoletoUser(client.getEmail(),"user");
-       System.out.println(userRepository.findByEmail(client.getEmail()));
+        System.out.println(userRepository.findByEmail(client.getEmail()));
+
+    }
+    @Override
+    public Client SaveUser (MultipartFile picture_file, Long id, String Name, String LastName, String email,  String password) throws Exception {
+
+        Client client = new Client(id, Name, LastName, email,new ArrayList<>(), password);
+        if (picture_file != null) {
+            String pîcture_fileName = StringUtils.cleanPath(picture_file.getOriginalFilename());
+            CustomFile picture = new CustomFile(pîcture_fileName, Base64.getEncoder().encodeToString(picture_file.getBytes()));
+            CustomFile savedPicture = this.customFileRepository.save(picture);
+            client.setPicture(savedPicture);
+        }
+
+
+        client = this.userRepository.save(client);
+
+        addRoletoUser(client.getEmail(), "user");
+            System.out.println(client);
+        return client;
+
+
+    }
+
+
+
+
+    public void SaveCompany(MultipartFile picture_file,Long id, String nameofCompany, String domaineofActivity,String nameofResponsible, String email, Collection<AppRole> appRoles, String password) throws IOException {
+
+        System.out.println(appRoles);
+        Company company = new Company(id, nameofCompany, domaineofActivity,nameofResponsible,email, null, password);
+        if (picture_file != null) {
+            String pîcture_fileName = StringUtils.cleanPath(picture_file.getOriginalFilename());
+            CustomFile picture = new CustomFile(pîcture_fileName, Base64.getEncoder().encodeToString(picture_file.getBytes()));
+            CustomFile savedPicture = this.customFileRepository.save(picture);
+            company.setPicture(savedPicture);
+        }
+        company = this.companyRepository.save(company);
+
 
     }
 
     @Override
     public void SaveCompany(Company company) {
-         company.setPassword(passwordEncoder.encode(company.getPassword()));
+        company.setPassword(passwordEncoder.encode(company.getPassword()));
         companyRepository.save(company);
-         addRoletoCompany(company.getEmail(),"company");
+        addRoletoCompany(company.getEmail(),"company");
         System.out.println(companyRepository.findByEmail(company.getEmail()));
 
     }
