@@ -107,48 +107,9 @@ public class UserMsApplication {
                 "FSB",new ArrayList<>()
         );
 
-        Client u2 = new Client(
 
-                "johndoe@gmail.com",
-                "456",
-                "123 Main St",
-                "555-1234",
-                "Utilisateur",
-                null,
-                null,
-                "John",
-                "Doe",
-                "Marketing",
-                "New York",
-                new Date(),
-                new Date(),
-                new Date(),
-                new Date(),
-                new Date(),
-                "NYU",
-                new ArrayList<>()
-        );
 
-        Client u3 = new Client(
 
-                "hedhlikhalil144@gmail.com",
-                "789",
-                "456 Park Ave",
-                "555-5678",
-                "Entreprise",
-                null,
-                null,
-                "Jane",
-                "Smith",
-                "Finance",
-                "London",
-                new Date(),
-                new Date(),
-                new Date(),
-                new Date(),
-                new Date(),
-                "LSE",new ArrayList<>()
-        );
         Client u4 = new Client(
 
                 "janedoe@example.com",
@@ -205,8 +166,6 @@ public class UserMsApplication {
 
 
             userService.SaveUser(u1);
-            userService.SaveUser(u2);
-            userService.SaveUser(u3);
             userService.SaveUser(u4);
             userService.SaveUser(u5);
             userService.SaveCompany(c1);
