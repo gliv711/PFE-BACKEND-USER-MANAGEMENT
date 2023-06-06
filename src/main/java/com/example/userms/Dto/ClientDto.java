@@ -1,5 +1,6 @@
 package com.example.userms.Dto;
 
+import com.example.userms.entity.CustomFile;
 import lombok.Data;
 
 import javax.persistence.Column;
@@ -19,5 +20,5 @@ public class ClientDto {
     private Date StartofWork;
     private Date EndofWork;
     private String university ;
-    public String image;
+    private CustomFile picture;
 }

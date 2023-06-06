@@ -36,26 +36,10 @@ public class Client extends Lambda {
      @ManyToMany(fetch = FetchType.EAGER)
      private Collection<AppRole> appRoles=new ArrayList<>() ;
 
+     @OneToOne(cascade = CascadeType.ALL)
+     @JoinColumn(name="picture_id", referencedColumnName = "id")
+     private CustomFile picture;
 
-    public Client(Long id, String email, String password, String address, String phone_number, String role, String image, String LastName, String Name,
-                  String domain, String region, Date BirthDate, Date StartofStudy, Date EndofStudy, Date StartofWork, Date EndofWork, String university){
-
-        super(email,password,address,phone_number,role,image);
-        this.id=id ;
-        this.domain = domain;
-        this.region = region;
-        this.university = university;
-        this.Name = Name;
-        this.LastName = LastName;
-        this.BirthDate = BirthDate;
-        this.StartofStudy = StartofStudy;
-        this.EndofStudy = EndofStudy;
-        this.StartofWork = StartofWork;
-        this.EndofWork = EndofWork;
-
-
-
-    }
      public Client(String email, String password, String address, String phone_number, String role, String image, Long id, String lastName, String name, String domain, String region, Date BirthDate, Date startofStudy, Date endofStudy, Date startofWork, Date endofWork, String university, Collection<AppRole> appRoles) {
          super(email, password, address, phone_number, role, image);
          this.id = id;
@@ -63,7 +47,7 @@ public class Client extends Lambda {
          Name = name;
          this.domain = domain;
          this.region = region;
-        this.BirthDate = BirthDate;
+         this.BirthDate = BirthDate;
          StartofStudy = startofStudy;
          EndofStudy = endofStudy;
          StartofWork = startofWork;
@@ -71,8 +55,16 @@ public class Client extends Lambda {
          this.university = university;
          this.appRoles = appRoles;
      }
+     public Client(Long id, String Name, String LastName, String email, Collection<AppRole> appRoles,String password){
+         this.id = id;
+         this.Name = Name;
+         this.LastName = LastName;
+         this.email = email;
+         this.appRoles = appRoles;
+         this.password = password;
+     }
 
 
 
-}
+ }
 
