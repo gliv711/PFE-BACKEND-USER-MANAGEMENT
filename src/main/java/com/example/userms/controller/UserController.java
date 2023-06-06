@@ -23,8 +23,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.*;
 import org.modelmapper.ModelMapper;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -76,12 +78,15 @@ public class UserController {
 
 
     @PostMapping("/user")
-    public ResponseEntity<Void> SaveUser(@RequestBody Client client) {
+    public Client SaveUser(@Nullable @RequestParam(name = "picture_file") MultipartFile picture_file,
+                           @Nullable @RequestParam("id") Long id,
+                           @Nullable @RequestParam("name") String Name,
+                           @Nullable @RequestParam("lastName") String LastName,
+                           @Nullable @RequestParam("email") String email,
+                           @Nullable @RequestParam("appRoles") String appRoles,
+                           @Nullable @RequestParam("password") String password) throws Exception {
 
-        userService.SaveUser(client);
-        HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(URI.create("/user/" + client.getId()));
-        return new ResponseEntity<>(headers, HttpStatus.CREATED);
+        return this.userService.SaveUser(picture_file, id, Name, LastName, email, password);
     }
 
 
