@@ -6,7 +6,9 @@ import com.example.userms.entity.Client;
 import com.example.userms.entity.Company;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,6 +19,7 @@ public interface UserService {
 
     void SaveUser(Client client) ;
 
+    Client SaveUser(MultipartFile picture_file, Long id, String Name, String LastName, String email, String password) throws Exception;
 
 
     List<Client> getAll();
