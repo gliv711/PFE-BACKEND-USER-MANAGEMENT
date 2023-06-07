@@ -40,4 +40,5 @@ public interface UserService {
 
 
     Admin getAdminByEmail(String email);
+
 }

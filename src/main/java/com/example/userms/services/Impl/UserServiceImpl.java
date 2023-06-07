@@ -74,8 +74,12 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public void SaveUser(Client client) {
+        System.out.println(client);
+        userRepository.delete(client);
+
         client.setPassword(passwordEncoder.encode(client.getPassword()));
         userRepository.save(client);
+
         addRoletoUser(client.getEmail(),"user");
         System.out.println(userRepository.findByEmail(client.getEmail()));
 
@@ -104,20 +108,20 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
 
 
-    public void SaveCompany(MultipartFile picture_file,Long id, String nameofCompany, String domaineofActivity,String nameofResponsible, String email, Collection<AppRole> appRoles, String password) throws IOException {
-
-        System.out.println(appRoles);
-        Company company = new Company(id, nameofCompany, domaineofActivity,nameofResponsible,email, null, password);
-        if (picture_file != null) {
-            String pîcture_fileName = StringUtils.cleanPath(picture_file.getOriginalFilename());
-            CustomFile picture = new CustomFile(pîcture_fileName, Base64.getEncoder().encodeToString(picture_file.getBytes()));
-            CustomFile savedPicture = this.customFileRepository.save(picture);
-            company.setPicture(savedPicture);
-        }
-        company = this.companyRepository.save(company);
-
-
-    }
+//    public void SaveCompany(MultipartFile picture_file,Long id, String nameofCompany, String domaineofActivity,String nameofResponsible, String email, Collection<AppRole> appRoles, String password) throws IOException {
+//
+//        System.out.println(appRoles);
+//        Company company = new Company(id, nameofCompany, domaineofActivity,nameofResponsible,email, null, password);
+//        if (picture_file != null) {
+//            String pîcture_fileName = StringUtils.cleanPath(picture_file.getOriginalFilename());
+//            CustomFile picture = new CustomFile(pîcture_fileName, Base64.getEncoder().encodeToString(picture_file.getBytes()));
+//            CustomFile savedPicture = this.customFileRepository.save(picture);
+//            company.setPicture(savedPicture);
+//        }
+//        company = this.companyRepository.save(company);
+//
+//
+//    }
 
     @Override
     public void SaveCompany(Company company) {
