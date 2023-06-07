@@ -55,8 +55,8 @@ public class securityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/api/admin/all", "/api/admin/**")
                 .hasAuthority("adminsuper");
         http.authorizeRequests()
-                .antMatchers(HttpMethod.POST, "/api/admin")
-                .hasAuthority("adminsuper");
+                .antMatchers(HttpMethod.POST, "/api/admin").
+        hasAnyAuthority("admin", "adminsuper");
 
         http.authorizeRequests().antMatchers(DELETE,"/api/user/{Id}").hasAnyAuthority("superAdmin");
         http.authorizeRequests().antMatchers(DELETE,"/api/user/{Id}","/api/admin/{Id}").hasAnyAuthority("admin");
