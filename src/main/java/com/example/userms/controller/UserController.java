@@ -89,6 +89,19 @@ public class UserController {
         return this.userService.SaveUser(picture_file, id, Name, LastName, email, password);
     }
 
+    @PutMapping("/user")
+    public Client updateUser(
+            @RequestParam(name = "picture_file", required = false) MultipartFile pictureFile,
+            @RequestParam("id") Long id,
+            @RequestParam("name") String name,
+            @RequestParam("lastName") String lastName,
+            @RequestParam("email") String email,
+            @RequestParam("password") String password) throws Exception {
+
+        return this.userService.SaveUser(pictureFile, id, name, lastName, email, password);
+    }
+
+
 
 
     @PostMapping("/AddRole")
@@ -253,12 +266,26 @@ public class UserController {
         return companyService.getCompanyById(id);
     }
 
-    @PostMapping("/company")
+ /*   @PostMapping("/company")
     public ResponseEntity<Void> SaveCompany(@RequestBody Company company) {
         userService.SaveCompany(company);
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(URI.create("/user/" + company.getId()));
         return new ResponseEntity<>(headers, HttpStatus.CREATED);
+@PutMapping("/company")
+    public Company updateCompany(
+            @RequestParam(name = "picture_file") MultipartFile pictureFile,
+            @RequestParam("id") Long id,
+            @RequestParam("nameofCompany") String nameofCompany,
+            @RequestParam("domaineofActivity") String domaineofActivity,
+            @RequestParam("email") String email,
+            @RequestParam("nameofResponsible") String nameofResponsible,
+            @RequestParam("address") String address,
+            @RequestParam("phone_number") String phoneNumber,
+            @RequestParam("appRoles") String appRoles,
+            @RequestParam("password") String password) throws Exception {
+
+        return this.companyService.updateCompany(pictureFile, id, nameofCompany, domaineofActivity, email, nameofResponsible, address, phoneNumber, appRoles, password);
     }
 
     @GetMapping("/company/email/{email}")

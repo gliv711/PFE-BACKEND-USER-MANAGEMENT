@@ -15,7 +15,7 @@ import java.util.Optional;
 public interface UserService {
 
     void SaveCompany(Company company) ;
-
+    Company saveCompany(MultipartFile picture_file, Long id , String email , String address,String phone_number,String password,String domaineofActivity , String nameofResponsible,String nameofCompany)throws Exception;
 
     void SaveUser(Client client) ;
 
@@ -40,4 +40,5 @@ public interface UserService {
 
 
     Admin getAdminByEmail(String email);
+
 }

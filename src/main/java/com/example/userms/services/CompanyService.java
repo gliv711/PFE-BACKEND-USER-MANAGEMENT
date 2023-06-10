@@ -2,6 +2,7 @@ package com.example.userms.services;
 
 import com.example.userms.entity.Client;
 import com.example.userms.entity.Company;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
@@ -20,4 +21,5 @@ public interface CompanyService {
 
     long count();
 
+    Company updateCompany(MultipartFile pictureFile, Long id, String nameofCompany, String domaineofActivity, String email, String nameofResponsible, String address, String phoneNumber, String appRoles, String password) throws Exception;
 }

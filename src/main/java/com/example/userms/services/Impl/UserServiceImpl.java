@@ -49,7 +49,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
            if (company==null){
                Admin admin =adminRepository.findByEmail(email);
                if(admin==null){
-                   throw new RuntimeException("not foud");
+                   throw new RuntimeException("not found");
 
                }
                Collection<SimpleGrantedAuthority> authorities=new ArrayList<>();
@@ -104,10 +104,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
 
 
-    public void SaveCompany(MultipartFile picture_file,Long id, String nameofCompany, String domaineofActivity,String nameofResponsible, String email, Collection<AppRole> appRoles, String password) throws IOException {
 
-        System.out.println(appRoles);
-        Company company = new Company(id, nameofCompany, domaineofActivity,nameofResponsible,email, null, password);
         if (picture_file != null) {
             String pîcture_fileName = StringUtils.cleanPath(picture_file.getOriginalFilename());
             CustomFile picture = new CustomFile(pîcture_fileName, Base64.getEncoder().encodeToString(picture_file.getBytes()));
@@ -177,6 +174,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         user.getAppRoles().add(appRole);
         userRepository.save(user);
     }
+
 
     @Override
     public void addRoletoCompany(String email, String roleName) {
