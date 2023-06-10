@@ -78,6 +78,14 @@ public class UserController {
 
 
     @PostMapping("/user")
+    public ResponseEntity<Void> SaveUser(@RequestBody Client client) {
+        userService.SaveUser(client);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setLocation(URI.create("/user/" + client.getId()));
+        return new ResponseEntity<>(headers, HttpStatus.CREATED);
+    }
+
+    @PostMapping("/user/image")
     public Client SaveUser(@Nullable @RequestParam(name = "picture_file") MultipartFile picture_file,
                            @Nullable @RequestParam("id") Long id,
                            @Nullable @RequestParam("name") String Name,

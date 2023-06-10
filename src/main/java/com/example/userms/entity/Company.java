@@ -11,7 +11,7 @@ import java.util.Collection;
 
 @Entity
 @NoArgsConstructor
-@AllArgsConstructor
+
 @Data
 @Table(name= "Company_info")
 public class Company extends Lambda {
@@ -22,6 +22,9 @@ public class Company extends Lambda {
     private String nameofResponsible;
     @ManyToMany(fetch = FetchType.EAGER)
     private Collection<AppRole> appRoles=new ArrayList<>() ;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="picture_id", referencedColumnName = "id")
+    private CustomFile picture;
 
     public Company(String email, String password, String address, String phone_number, String role, String image, Long id, String nameofCompany, String domaineofActivity, Collection<AppRole> appRoles) {
         super(email, password, address, phone_number, role, image);
@@ -30,4 +33,6 @@ public class Company extends Lambda {
         this.domaineofActivity = domaineofActivity;
         this.appRoles = appRoles;
     }
+
+
 }
