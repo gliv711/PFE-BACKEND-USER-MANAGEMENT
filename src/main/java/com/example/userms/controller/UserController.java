@@ -57,9 +57,7 @@ public class UserController {
     private CompanyService companyService;
 
     @Autowired
-    private AdminService adminService ;
-
-
+    private AdminService adminService;
 
 
     @GetMapping("/user/all")
@@ -69,6 +67,7 @@ public class UserController {
 
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
+
     @GetMapping("/admin/all")
     public List<Admin> getAllAdmins() {
 
@@ -108,8 +107,6 @@ public class UserController {
 
         return this.userService.SaveUser(pictureFile, id, name, lastName, email, password);
     }
-
-
 
 
     @PostMapping("/AddRole")
@@ -251,111 +248,114 @@ public class UserController {
     }
 
 
-
-
     @GetMapping("/company/all")
-    public List<Company> getAllCompany(){
+    public List<Company> getAllCompany() {
         return companyService.getAllC();
     }
 
     @GetMapping("/company/count")
-    public Long CompanyCount(){
+    public Long CompanyCount() {
         return companyService.count();
     }
 
     @GetMapping("/admin/count")
-    public long AdminCount(){
+    public long AdminCount() {
         return adminService.Count();
     }
 
 
     @GetMapping("/company/{id}")
-    public Optional<Company> GetCompanyById(@PathVariable("id") Long id){
+    public Optional<Company> GetCompanyById(@PathVariable("id") Long id) {
         return companyService.getCompanyById(id);
     }
-
- /*   @PostMapping("/company")
-    public ResponseEntity<Void> SaveCompany(@RequestBody Company company) {
-        userService.SaveCompany(company);
-        HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(URI.create("/user/" + company.getId()));
-        return new ResponseEntity<>(headers, HttpStatus.CREATED);
-@PutMapping("/company")
-    public Company updateCompany(
-            @RequestParam(name = "picture_file") MultipartFile pictureFile,
-            @RequestParam("id") Long id,
-            @RequestParam("nameofCompany") String nameofCompany,
-            @RequestParam("domaineofActivity") String domaineofActivity,
-            @RequestParam("email") String email,
-            @RequestParam("nameofResponsible") String nameofResponsible,
-            @RequestParam("address") String address,
-            @RequestParam("phone_number") String phoneNumber,
-            @RequestParam("appRoles") String appRoles,
-            @RequestParam("password") String password) throws Exception {
-
-        return this.companyService.updateCompany(pictureFile, id, nameofCompany, domaineofActivity, email, nameofResponsible, address, phoneNumber, appRoles, password);
-    }
-
-    @GetMapping("/company/email/{email}")
-    public CompanyDto getCompanyByEmail(@PathVariable("email") String email) {
-        Company company = companyService.getAllC().stream()
-                .filter(c -> c.getEmail().equals(email))
-                .findFirst()
-                .orElse(null);
-
-        if (company != null) {
-            ModelMapper modelMapper = new ModelMapper();
-            CompanyDto companyDto = modelMapper.map(company, CompanyDto.class);
-            return companyDto;
-        } else {
-            return null;
-        }
-
-    }
-    @GetMapping("/admin/email/{email}")
-    public AdminDto getAdminbyEmail(@PathVariable("email") String email) {
-        Admin admin = adminService.getAllA().stream()
-                .filter(c -> c.getEmail().equals(email))
-                .findFirst()
-                .orElse(null);
-
-        if (admin != null) {
-            ModelMapper modelMapper = new ModelMapper();
-            AdminDto adminDto  = modelMapper.map(admin, AdminDto.class);
-            return adminDto;
-        } else {
-            return null;
-        }    }
-
-    @DeleteMapping("/company/{Id}")
-    public void deleteByIdCompany(@PathVariable(name = "Id") Long Id) {
-        companyService.deleteByIdCompany(Id);
-    }
-    @PostMapping("/admin")
-    public ResponseEntity<Void> Saveadmin(@RequestBody Admin admin) {
-        userService.Saveadmin(admin);
-        HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(URI.create("/admin/" + admin.getId()));
-        System.out.println(admin);
-        return new ResponseEntity<>(headers, HttpStatus.CREATED);
-    }
-
-    @DeleteMapping("/admin/{Id}")
-    public void deleteByIdAdmin(@PathVariable(name = "Id") Long Id) {
-          adminService.deleteByIdadmin(Id) ;   }
-    @GetMapping("user/check-email/{email}")
-    public boolean checkUserEmailExists(@PathVariable String email) {
-        return userService.checkIfUserEmailExists(email);
-    }
-    @GetMapping("company/check-email/{email}")
-    public boolean checkcompanyEmailExists(@PathVariable String email) {
-        return companyService.checkIfCompanyEmailExists(email);
-    }
-
 }
 
-@Data  class RoleTouserFORM {
+    @Data
+    class RoleTouserFORM {
 
-    private String email;
-    private String roleName;
-}
+        private String email;
+        private String roleName;
+    }
+
+
+// /*   @PostMapping("/company")
+//    public ResponseEntity<Void> SaveCompany(@RequestBody Company company) {
+//        userService.SaveCompany(company);
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.setLocation(URI.create("/user/" + company.getId()));
+//        return new ResponseEntity<>(headers, HttpStatus.CREATED);
+//@PutMapping("/company")
+//    public Company updateCompany(
+//            @RequestParam(name = "picture_file") MultipartFile pictureFile,
+//            @RequestParam("id") Long id,
+//            @RequestParam("nameofCompany") String nameofCompany,
+//            @RequestParam("domaineofActivity") String domaineofActivity,
+//            @RequestParam("email") String email,
+//            @RequestParam("nameofResponsible") String nameofResponsible,
+//            @RequestParam("address") String address,
+//            @RequestParam("phone_number") String phoneNumber,
+//            @RequestParam("appRoles") String appRoles,
+//            @RequestParam("password") String password) throws Exception {
+//
+//        return this.companyService.updateCompany(pictureFile, id, nameofCompany, domaineofActivity, email, nameofResponsible, address, phoneNumber, appRoles, password);
+//    }
+//
+//    @GetMapping("/company/email/{email}")
+//    public CompanyDto getCompanyByEmail(@PathVariable("email") String email) {
+//        Company company = companyService.getAllC().stream()
+//                .filter(c -> c.getEmail().equals(email))
+//                .findFirst()
+//                .orElse(null);
+//
+//        if (company != null) {
+//            ModelMapper modelMapper = new ModelMapper();
+//            CompanyDto companyDto = modelMapper.map(company, CompanyDto.class);
+//            return companyDto;
+//        } else {
+//            return null;
+//        }
+//
+//    }
+//    @GetMapping("/admin/email/{email}")
+//    public AdminDto getAdminbyEmail(@PathVariable("email") String email) {
+//        Admin admin = adminService.getAllA().stream()
+//                .filter(c -> c.getEmail().equals(email))
+//                .findFirst()
+//                .orElse(null);
+//
+//        if (admin != null) {
+//            ModelMapper modelMapper = new ModelMapper();
+//            AdminDto adminDto  = modelMapper.map(admin, AdminDto.class);
+//            return adminDto;
+//        } else {
+//            return null;
+//        }    }
+//
+//    @DeleteMapping("/company/{Id}")
+//    public void deleteByIdCompany(@PathVariable(name = "Id") Long Id) {
+//        companyService.deleteByIdCompany(Id);
+//    }
+//    @PostMapping("/admin")
+//    public ResponseEntity<Void> Saveadmin(@RequestBody Admin admin) {
+//        userService.Saveadmin(admin);
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.setLocation(URI.create("/admin/" + admin.getId()));
+//        System.out.println(admin);
+//        return new ResponseEntity<>(headers, HttpStatus.CREATED);
+//    }
+//
+//    @DeleteMapping("/admin/{Id}")
+//    public void deleteByIdAdmin(@PathVariable(name = "Id") Long Id) {
+//          adminService.deleteByIdadmin(Id) ;   }
+//    @GetMapping("user/check-email/{email}")
+//    public boolean checkUserEmailExists(@PathVariable String email) {
+//        return userService.checkIfUserEmailExists(email);
+//    }
+//    @GetMapping("company/check-email/{email}")
+//    public boolean checkcompanyEmailExists(@PathVariable String email) {
+//        return companyService.checkIfCompanyEmailExists(email);
+//    }
+//
+//}
+
+

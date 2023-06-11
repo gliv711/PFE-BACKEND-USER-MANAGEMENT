@@ -131,6 +131,12 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         System.out.println(companyRepository.findByEmail(company.getEmail()));
 
     }
+
+    @Override
+    public Company saveCompany(MultipartFile picture_file, Long id, String email, String address, String phone_number, String password, String domaineofActivity, String nameofResponsible, String nameofCompany) throws Exception {
+        return null;
+    }
+
     public void Saveadmin(Admin admin) {
         admin.setPassword(passwordEncoder.encode(admin.getPassword()));
         adminRepository.save(admin);
