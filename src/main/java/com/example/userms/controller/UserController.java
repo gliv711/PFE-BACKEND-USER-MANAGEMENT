@@ -306,7 +306,35 @@ public class UserController {
             return adminDto;
         } else {
             return null;
-        }    }
+        }
+    }
+    @PostMapping("/company")
+    public ResponseEntity<Void> SaveCompany(@RequestBody Company company) {
+        userService.SaveCompany(company);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setLocation(URI.create("/company/" + company.getId()));
+        return new ResponseEntity<>(headers, HttpStatus.CREATED);
+    }
+        @DeleteMapping("/company/{Id}")
+    public void deleteByIdCompany(@PathVariable(name = "Id") Long Id) {
+        companyService.deleteByIdCompany(Id);
+    }
+    @PostMapping("/admin")
+    public ResponseEntity<Void> Saveadmin(@RequestBody Admin admin) {
+        userService.Saveadmin(admin);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setLocation(URI.create("/admin/" + admin.getId()));
+        System.out.println(admin);
+        return new ResponseEntity<>(headers, HttpStatus.CREATED);
+    }
+
+    @DeleteMapping("/admin/{Id}")
+    public void deleteByIdAdmin(@PathVariable(name = "Id") Long Id) {
+          adminService.deleteByIdadmin(Id) ;   }
+    @GetMapping("/user/check-email/{email}")
+    public boolean checkUserEmailExists(@PathVariable String email) {
+        return userService.checkIfUserEmailExists(email);
+    }
 
 
 
@@ -323,12 +351,7 @@ public class UserController {
     }
 
 
-// /*   @PostMapping("/company")
-//    public ResponseEntity<Void> SaveCompany(@RequestBody Company company) {
-//        userService.SaveCompany(company);
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.setLocation(URI.create("/user/" + company.getId()));
-//        return new ResponseEntity<>(headers, HttpStatus.CREATED);
+//
 //@PutMapping("/company")
 //    public Company updateCompany(
 //            @RequestParam(name = "picture_file") MultipartFile pictureFile,
@@ -376,26 +399,7 @@ public class UserController {
 //            return null;
 //        }    }
 //
-//    @DeleteMapping("/company/{Id}")
-//    public void deleteByIdCompany(@PathVariable(name = "Id") Long Id) {
-//        companyService.deleteByIdCompany(Id);
-//    }
-//    @PostMapping("/admin")
-//    public ResponseEntity<Void> Saveadmin(@RequestBody Admin admin) {
-//        userService.Saveadmin(admin);
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.setLocation(URI.create("/admin/" + admin.getId()));
-//        System.out.println(admin);
-//        return new ResponseEntity<>(headers, HttpStatus.CREATED);
-//    }
-//
-//    @DeleteMapping("/admin/{Id}")
-//    public void deleteByIdAdmin(@PathVariable(name = "Id") Long Id) {
-//          adminService.deleteByIdadmin(Id) ;   }
-//    @GetMapping("user/check-email/{email}")
-//    public boolean checkUserEmailExists(@PathVariable String email) {
-//        return userService.checkIfUserEmailExists(email);
-//    }
+
 //    @GetMapping("company/check-email/{email}")
 //    public boolean checkcompanyEmailExists(@PathVariable String email) {
 //        return companyService.checkIfCompanyEmailExists(email);
