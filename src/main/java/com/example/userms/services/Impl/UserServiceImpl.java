@@ -18,6 +18,8 @@ import javax.transaction.Transactional;
 import java.io.IOException;
 import java.util.*;
 
+import static org.apache.tomcat.jni.SSL.setPassword;
+
 @Service
 @Transactional @Slf4j
 public class UserServiceImpl implements UserService, UserDetailsService {
@@ -134,7 +136,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public Company saveCompany(MultipartFile picture_file, Long id, String email, String address, String phone_number, String password, String domaineofActivity, String nameofResponsible, String nameofCompany) throws Exception {
-        return null;
+return new Company();
     }
 
     public void Saveadmin(Admin admin) {
@@ -229,6 +231,63 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         }
 
         return true;
+    }
+
+    @Override
+    public void update(Client client) {
+Client client1 =userRepository.findByEmail(client.email);
+if(client.getName()!=null){
+    client1.setName(client.getName());
+}
+if(client.getPassword()!=null){
+    client1.setPassword(passwordEncoder.encode(client.getPassword()));
+}
+if(client.getDomain()!=null){
+    client1.setDomain(client.getDomain());
+}
+if(client.getLastName()!=null){
+    client1.setLastName(client.getLastName());
+}
+if(client.getRegion()!=null){
+    client1.setRegion(client.getRegion());
+}
+if(client.getUniversity()!=null){
+    client1.setUniversity(client.getUniversity());
+}
+if(client.getAddress()!=null){
+    client1.setAddress(client.getAddress());
+}
+ if(client.getPhone_number()!=null){
+     client1.setPhone_number(client.getPhone_number());
+
+ }
+if(client.getEmail()!=null){
+   client1.setEmail(client.getEmail());
+}
+if(client.getAppRoles()!=null){
+    client1.setAppRoles(client.getAppRoles());
+}
+if(client.getBirthDate()!=null){
+    client1.setBirthDate(client.getBirthDate());
+}
+if(client.getEndofStudy()!=null){
+            client1.setEndofStudy(client.getEndofStudy());
+        }
+ if(client.getStartofStudy()!=null){
+     client1.setStartofStudy(client.getStartofStudy());
+
+ }
+ if(client.getStartofWork()!=null){
+     client1.setStartofWork(client.getStartofWork());
+ }
+ if(client.getEndofWork()!=null){
+     client1.setEndofWork(client.getEndofWork());
+ }
+ userRepository.save(client1);
+        addRoletoUser(client1.getEmail(),"user");
+        System.out.println(userRepository.findByEmail(client1.getEmail()));
+
+
     }
 
 }

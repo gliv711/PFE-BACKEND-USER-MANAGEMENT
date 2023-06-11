@@ -36,7 +36,7 @@ public interface UserService {
     void addRoletoadmin(String email,String roleName );
     void Saveadmin(Admin admin) ;
     boolean checkIfUserEmailExists(String email);
-
+   void  update(Client client);
 
 
     Admin getAdminByEmail(String email);

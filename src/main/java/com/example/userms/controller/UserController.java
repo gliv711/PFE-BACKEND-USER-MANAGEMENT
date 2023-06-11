@@ -83,6 +83,13 @@ public class UserController {
         headers.setLocation(URI.create("/user/" + client.getId()));
         return new ResponseEntity<>(headers, HttpStatus.CREATED);
     }
+    @PutMapping("/user/update")
+    public  void updateuser(@RequestBody Client client){
+  userService.update(client);
+
+
+
+    }
 
     @PostMapping("/user/image")
     public Client SaveUser(@Nullable @RequestParam(name = "picture_file") MultipartFile picture_file,
