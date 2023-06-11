@@ -20,6 +20,8 @@ public interface CompanyService {
 
 
     long count();
+    void  update(Company company);
+    void addRoletoCompany(String email,String roleName );
 
     Company updateCompany(MultipartFile pictureFile, Long id, String nameofCompany, String domaineofActivity, String email, String nameofResponsible, String address, String phoneNumber, String appRoles, String password) throws Exception;
 }

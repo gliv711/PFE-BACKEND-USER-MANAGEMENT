@@ -86,9 +86,10 @@ public class UserController {
     @PutMapping("/user/update")
     public  void updateuser(@RequestBody Client client){
   userService.update(client);
-
-
-
+    }
+    @PutMapping("/company/update")
+    public  void updatecompany(@RequestBody Company company){
+        companyService.update(company);
     }
 
     @PostMapping("/user/image")
@@ -275,7 +276,44 @@ public class UserController {
     public Optional<Company> GetCompanyById(@PathVariable("id") Long id) {
         return companyService.getCompanyById(id);
     }
+
+    @GetMapping("/company/email/{email}")
+    public CompanyDto getCompanyByEmail(@PathVariable("email") String email) {
+        Company company = companyService.getAllC().stream()
+               .filter(c -> c.getEmail().equals(email))
+                .findFirst()
+                .orElse(null);
+
+        if (company != null) {
+            ModelMapper modelMapper = new ModelMapper();
+            CompanyDto companyDto = modelMapper.map(company, CompanyDto.class);
+            return companyDto;
+        } else {
+            return null;
+        }
+
+    }
+    @GetMapping("/admin/email/{email}")
+    public AdminDto getAdminbyEmail(@PathVariable("email") String email) {
+       Admin admin = adminService.getAllA().stream()
+                .filter(c -> c.getEmail().equals(email))
+             .findFirst()
+             .orElse(null);
+
+        if (admin != null) {
+           ModelMapper modelMapper = new ModelMapper();
+            AdminDto adminDto  = modelMapper.map(admin, AdminDto.class);
+            return adminDto;
+        } else {
+            return null;
+        }    }
+
+
+
+
+
 }
+
 
     @Data
     class RoleTouserFORM {

@@ -1,12 +1,15 @@
 package com.example.userms.services.Impl;
 
+import com.example.userms.entity.AppRole;
 import com.example.userms.entity.Client;
 import com.example.userms.entity.Company;
 import com.example.userms.entity.CustomFile;
 import com.example.userms.repository.CustomFileRepository;
+import com.example.userms.repository.RoleRepository;
 import com.example.userms.repository.companyRepository;
 import com.example.userms.services.CompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -22,6 +25,10 @@ public class CompanyServiceImpl implements CompanyService {
 
     @Autowired
     private CustomFileRepository customFileRepository ;
+    @Autowired
+    private RoleRepository roleRepository;
+    @Autowired
+    private  PasswordEncoder passwordEncoder;
     @Override
     public List<Company> getAllC() {
         return companyRepository.findAll();
@@ -46,6 +53,47 @@ public class CompanyServiceImpl implements CompanyService {
     @Override
     public long count(){
         return companyRepository.count();
+    }
+
+    @Override
+    public void update(Company company) {
+       Company company1 =companyRepository.findByEmail(company.getEmail());
+       if (company.getNameofCompany()!=null){
+           company1.setNameofCompany(company.getNameofCompany());
+       }
+        if (company.getAddress()!=null){
+            company1.setAddress(company.getAddress());
+        }
+        if (company.getAppRoles()!=null){
+            company1.setAppRoles(company.getAppRoles());
+        }
+        if (company.getEmail()!=null){
+            company1.setEmail(company.getEmail());
+        }
+        if (company.getDomaineofActivity()!=null){
+            company1.setDomaineofActivity(company.getDomaineofActivity());
+        }
+        if (company.getNameofResponsible()!=null){
+            company1.setNameofResponsible(company.getNameofResponsible());
+        }
+        if (company.getPassword()!=null){
+            company1.setPassword(passwordEncoder.encode(company.getPassword()));
+        }
+        if (company.getPhone_number()!=null){
+            company1.setPhone_number(company.getPhone_number());
+        }
+        companyRepository.save(company1);
+        addRoletoCompany(company1.getEmail(),"company");
+        System.out.println(companyRepository.findByEmail(company1.getEmail()));
+    }
+
+    @Override
+    public void addRoletoCompany(String email, String roleName) {
+        Company company=companyRepository.findByEmail(email);
+        AppRole appRole=roleRepository.findByRoleName(roleName);
+        company.getAppRoles().add(appRole);
+        companyRepository.save(company);
+        System.out.println(company);
     }
 
     public boolean checkIfCompanyEmailExists(String email) {
