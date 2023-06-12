@@ -233,6 +233,7 @@ return new Company();
         return true;
     }
 
+
     @Override
     public void update(Client client) {
 Client client1 =userRepository.findByEmail(client.email);
@@ -289,5 +290,7 @@ if(client.getEndofStudy()!=null){
 
 
     }
+
+
 
 }

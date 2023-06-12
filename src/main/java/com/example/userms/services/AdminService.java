@@ -15,6 +15,10 @@ public interface AdminService {
 
 
     Admin deleteByIdadmin(Long id );
+    void  update(Admin admin);
+    void addRoletoadmin(String email,String roleName );
+    void Saveadmin(Admin admin) ;
+
 
 
 }

@@ -58,7 +58,8 @@ public class UserMsApplication {
         LocalDateTime localDateTime = LocalDateTime.now();
         Date date = Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
 
-        Admin admin =new Admin(
+
+        Admin admin1=new Admin(
                 null,
                 "admin@gmail.com",
                 "admin1234@",
@@ -169,6 +170,7 @@ public class UserMsApplication {
             userService.SaveUser(u4);
             userService.SaveUser(u5);
             userService.SaveCompany(c1);
+            userService.Saveadmin(admin1);
             userService.Saveadmin(a1);
             userService.addRoletoadmin("admin","super");
 //            userService.addRoletoUser("hedhlikhalil144@gmail.com","company");

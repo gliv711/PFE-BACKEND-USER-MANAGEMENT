@@ -91,6 +91,10 @@ public class UserController {
     public  void updatecompany(@RequestBody Company company){
         companyService.update(company);
     }
+    @PutMapping("/admin/update")
+    public  void updateadmin(@RequestBody Admin admin){
+              adminService.update(admin);
+    }
 
     @PostMapping("/user/image")
     public Client SaveUser(@Nullable @RequestParam(name = "picture_file") MultipartFile picture_file,
@@ -335,6 +339,7 @@ public class UserController {
     public boolean checkUserEmailExists(@PathVariable String email) {
         return userService.checkIfUserEmailExists(email);
     }
+
 
 
 
