@@ -88,8 +88,16 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
     @Override
     public Client SaveUser (MultipartFile picture_file, Long id, String Name, String LastName, String email,  String password) throws Exception {
+        Client client =new Client();
+          if(id!=null){
+                 client = this.userRepository.findById(id).get();
 
-        Client client = new Client(id, Name, LastName, email,new ArrayList<>(), password);
+          }
+          client.setName(Name);
+          client.setLastName(LastName);
+          client.setEmail(email);
+          client.setPassword(password);
+
         if (picture_file != null) {
             String pîcture_fileName = StringUtils.cleanPath(picture_file.getOriginalFilename());
             CustomFile picture = new CustomFile(pîcture_fileName, Base64.getEncoder().encodeToString(picture_file.getBytes()));
@@ -138,6 +146,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public Company saveCompany(MultipartFile picture_file, Long id, String email, String address, String phone_number, String password, String domaineofActivity, String nameofResponsible, String nameofCompany) throws Exception {
 return new Company();
     }
+    @Override
+    public Company updateCompany(MultipartFile picture_file, Long id, String email, String address, String phone_number, String password, String domaineofActivity, String nameofResponsible, String nameofCompany) {
+        return new Company();
+    }
+
 
     public void Saveadmin(Admin admin) {
         admin.setPassword(passwordEncoder.encode(admin.getPassword()));
@@ -290,6 +303,7 @@ if(client.getEndofStudy()!=null){
 
 
     }
+
 
 
 

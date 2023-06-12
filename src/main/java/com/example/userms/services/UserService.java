@@ -37,7 +37,7 @@ public interface UserService {
     void Saveadmin(Admin admin) ;
     boolean checkIfUserEmailExists(String email);
    void  update(Client client);
-
+    public Company updateCompany(MultipartFile picture_file, Long id, String email, String address, String phone_number, String password, String domaineofActivity, String nameofResponsible, String nameofCompany);
 
 
     Admin getAdminByEmail(String email);
