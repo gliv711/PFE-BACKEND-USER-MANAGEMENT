@@ -19,8 +19,10 @@ public class Admin {
     public String password;
     public String address ;
     public String phone_number ;
-    @Lob
-    public String image;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="picture_id", referencedColumnName = "id")
+    private CustomFile picture;
     @ManyToMany(fetch = FetchType.EAGER)
     private Collection<AppRole> appRoles=new ArrayList<>() ;
     public Admin(Long id, String email, String password, String address, String phone_number, String image, Collection<AppRole> appRoles) {
@@ -29,7 +31,6 @@ public class Admin {
         this.password = password;
         this.address = address;
         this.phone_number = phone_number;
-        this.image = image;
         this.appRoles = appRoles;
     }
 }

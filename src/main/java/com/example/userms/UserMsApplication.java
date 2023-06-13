@@ -5,6 +5,7 @@ import com.example.userms.entity.AppRole;
 import com.example.userms.entity.Client;
 import com.example.userms.entity.Company;
 import com.example.userms.repository.UserRepository;
+import com.example.userms.services.AdminService;
 import com.example.userms.services.CompanyService;
 import com.example.userms.services.UserService;
 import org.springframework.boot.CommandLineRunner;
@@ -55,7 +56,7 @@ public class UserMsApplication {
     }
 
     @Bean
-    CommandLineRunner commandLineRunner (UserService userService, CompanyService companyService){
+    CommandLineRunner commandLineRunner (UserService userService, CompanyService companyService, AdminService adminService){
         LocalDateTime localDateTime = LocalDateTime.now();
         Date date = Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
 
@@ -68,7 +69,6 @@ public class UserMsApplication {
                 "24894751",
                 null,
                 new ArrayList<>()
-
         );
 
         Company c1=new Company(
@@ -93,7 +93,7 @@ public class UserMsApplication {
                 "cite ouali",
                 "55630765",
                 "Administrateur",
-                null,
+
                 null,
                 "Mfarrej",
                 "Neder",
@@ -118,7 +118,6 @@ public class UserMsApplication {
                 "555-987-6543",
                 "Entreprise",
                 null,
-                null,
                 "Jane",
                 "Doe",
                 "Finance",
@@ -138,7 +137,6 @@ public class UserMsApplication {
                 "789 Oak St",
                 "555-555-5555",
                 "Administrateur",
-                null,
                 null,
                 "Bob",
                 "Smith",
@@ -169,8 +167,8 @@ public class UserMsApplication {
             userService.SaveUser(u4);
             userService.SaveUser(u5);
             companyService.SaveCompany(c1);
-            userService.Saveadmin(admin1);
-            userService.Saveadmin(a1);
+            adminService.Saveadmin(admin1);
+            adminService.Saveadmin(a1);
             userService.addRoletoadmin("admin","super");
 //            userService.addRoletoUser("hedhlikhalil144@gmail.com","company");
 //            userService.addRoletoUser("bobsmith@example.com","user");
