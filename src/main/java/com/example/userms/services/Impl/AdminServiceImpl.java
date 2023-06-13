@@ -1,15 +1,17 @@
 package com.example.userms.services.Impl;
 
-import com.example.userms.entity.Admin;
-import com.example.userms.entity.AppRole;
-import com.example.userms.entity.Company;
+import com.example.userms.entity.*;
 import com.example.userms.repository.AdminRepository;
+import com.example.userms.repository.CustomFileRepository;
 import com.example.userms.repository.RoleRepository;
 import com.example.userms.services.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Base64;
 import java.util.List;
 @Service
 public class AdminServiceImpl implements AdminService {
@@ -20,6 +22,8 @@ public class AdminServiceImpl implements AdminService {
     @Autowired
     private RoleRepository roleRepository;
 
+    @Autowired
+    private CustomFileRepository customFileRepository ;
     @Override
     public List<Admin> getAllA() {
 
@@ -87,4 +91,38 @@ public class AdminServiceImpl implements AdminService {
 
     }
 
-}
+    @Override
+    public Admin SaveAdmin(MultipartFile picture_file,Long id,String address,String email,String password,String phone_number) throws Exception {
+
+            Admin admin =new Admin();
+            if(id!=null){
+                admin = this.adminRepository.findById(id).get();
+
+            }
+            admin.setEmail(email);
+            admin.setAddress(address);
+            admin.setPhone_number(phone_number);
+            admin.setPassword(password);
+
+
+            if (picture_file != null) {
+                String pîcture_fileName = StringUtils.cleanPath(picture_file.getOriginalFilename());
+                CustomFile picture = new CustomFile(pîcture_fileName, Base64.getEncoder().encodeToString(picture_file.getBytes()));
+                CustomFile savedPicture = this.customFileRepository.save(picture);
+                admin.setPicture(savedPicture);
+            }
+
+
+            admin = this.adminRepository.save(admin);
+
+            addRoletoadmin(admin.getEmail(), "admin");
+            System.out.println(admin);
+            return admin;
+
+
+        }
+
+
+    }
+
+

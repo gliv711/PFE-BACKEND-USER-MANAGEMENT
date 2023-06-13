@@ -67,12 +67,7 @@ public class UserController {
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
-    @GetMapping("/admin/all")
-    public List<Admin> getAllAdmins() {
 
-        return adminService.getAllA();
-
-    }
 
 
     @PostMapping("/user")
@@ -87,10 +82,7 @@ public class UserController {
   userService.update(client);
     }
 
-    @PutMapping("/admin/update")
-    public  void updateadmin(@RequestBody Admin admin){
-              adminService.update(admin);
-    }
+
 
     @PostMapping("/user/image")
     public Client SaveUser(@Nullable @RequestParam(name = "picture_file") MultipartFile picture_file,
@@ -254,10 +246,6 @@ public class UserController {
 
 
 
-    @GetMapping("/admin/count")
-    public long AdminCount() {
-        return adminService.Count();
-    }
 
 
 
@@ -278,18 +266,9 @@ public class UserController {
     }
 
 
-    @PostMapping("/admin")
-    public ResponseEntity<Void> Saveadmin(@RequestBody Admin admin) {
-        userService.Saveadmin(admin);
-        HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(URI.create("/admin/" + admin.getId()));
-        System.out.println(admin);
-        return new ResponseEntity<>(headers, HttpStatus.CREATED);
-    }
 
-    @DeleteMapping("/admin/{Id}")
-    public void deleteByIdAdmin(@PathVariable(name = "Id") Long Id) {
-          adminService.deleteByIdadmin(Id) ;   }
+
+
     @GetMapping("/user/check-email/{email}")
     public boolean checkUserEmailExists(@PathVariable String email) {
         return userService.checkIfUserEmailExists(email);
