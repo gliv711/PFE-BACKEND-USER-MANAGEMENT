@@ -11,6 +11,7 @@ import com.example.userms.entity.Admin;
 import com.example.userms.entity.AppRole;
 import com.example.userms.entity.Client;
 import com.example.userms.entity.Company;
+import com.example.userms.model.UserRandomInfo;
 import com.example.userms.repository.AdminRepository;
 import com.example.userms.services.AdminService;
 import com.example.userms.services.CompanyService;
@@ -30,6 +31,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.net.URI;
 import java.util.*;
@@ -57,6 +59,8 @@ public class UserController {
 
     @Autowired
     private AdminService adminService;
+    @Autowired
+    private HttpSession session;
 
 
     @GetMapping("/user/all")
@@ -157,13 +161,44 @@ public class UserController {
         String subject = "Réinitialisation du mot de passe";
 
         String body = "Bonjour voici votre code" + randomNumber;
+        UserRandomInfo userRandomInfo = new UserRandomInfo();
+        userRandomInfo.setEmail(email);
+        userRandomInfo.setRandomNumber(randomNumber);
+
+        session.setAttribute("userRandomInfo", userRandomInfo);
+        System.out.println(userRandomInfo.getRandomNumber());
+        System.out.println(userRandomInfo.getEmail());
+
+
 
         if (userService.loadUserByemail(email) != null) {
             emailService.sendEmail(to, subject, body);
-            return ResponseEntity.ok("Email envoyé avec succès"+randomNumber);
+            return ResponseEntity.ok("Email envoyé avec succès   " + " "+randomNumber);
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Utilisateur introuvable");
     }
+    @PostMapping("/user/verify-random-number/{number}/{email}")
+    public ResponseEntity<String> verifyRandomNumber(
+            @PathVariable("number") int number,
+            @PathVariable("email") String email,
+            HttpSession session) {
+
+        UserRandomInfo userRandomInfo = (UserRandomInfo) session.getAttribute("userRandomInfo");
+
+        if (userRandomInfo != null &&
+                number == userRandomInfo.getRandomNumber() &&
+                email.equals(userRandomInfo.getEmail())) {
+            // La valeur entrée par l'utilisateur correspond au randomNumber et à l'email
+            // Faites ici ce que vous devez faire lorsque la vérification réussit
+            return ResponseEntity.ok("Le numéro et l'email sont corrects !");
+        } else {
+            // La valeur entrée par l'utilisateur ne correspond pas au randomNumber ou à l'email
+            // Faites ici ce que vous devez faire lorsque la vérification échoue
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Le numéro ou l'email est incorrect !");
+        }
+    }
+
+
 
 
     @GetMapping("/user/count")
