@@ -150,15 +150,17 @@ public class UserController {
     }*/
     @PostMapping("/user/send-email/{email}")
     public ResponseEntity<String> sendEmail(@PathVariable("email") String email) {
+        Random random = new Random();
+        int randomNumber = random.nextInt(90000) + 10000;
         // Example usage: Sending an email
         String to = email;
         String subject = "Réinitialisation du mot de passe";
-        int x = 0 ;
-        String body = "Bonjour voici votre code" + x ;
+
+        String body = "Bonjour voici votre code" + randomNumber;
 
         if (userService.loadUserByemail(email) != null) {
             emailService.sendEmail(to, subject, body);
-            return ResponseEntity.ok("Email envoyé avec succès");
+            return ResponseEntity.ok("Email envoyé avec succès"+randomNumber);
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Utilisateur introuvable");
     }
