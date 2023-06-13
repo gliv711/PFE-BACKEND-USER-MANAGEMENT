@@ -25,7 +25,6 @@ public class Lambda  {
 
     public String role;
 
-    @Lob
-    public String image;
+
 
 }

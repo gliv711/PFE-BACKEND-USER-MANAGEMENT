@@ -26,8 +26,8 @@ public class Company extends Lambda {
     @JoinColumn(name="picture_id", referencedColumnName = "id")
     private CustomFile picture;
 
-    public Company(String email, String password, String address, String phone_number, String role, String image, Long id, String nameofCompany, String domaineofActivity, Collection<AppRole> appRoles) {
-        super(email, password, address, phone_number, role, image);
+    public Company(String email, String password, String address, String phone_number, String role, Long id, String nameofCompany, String domaineofActivity, Collection<AppRole> appRoles) {
+        super(email, password, address, phone_number, role);
         this.id = id;
         this.nameofCompany = nameofCompany;
         this.domaineofActivity = domaineofActivity;

@@ -53,8 +53,7 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private CompanyService companyService;
+
 
     @Autowired
     private AdminService adminService;
@@ -87,10 +86,7 @@ public class UserController {
     public  void updateuser(@RequestBody Client client){
   userService.update(client);
     }
-    @PutMapping("/company/update")
-    public  void updatecompany(@RequestBody Company company){
-        companyService.update(company);
-    }
+
     @PutMapping("/admin/update")
     public  void updateadmin(@RequestBody Admin admin){
               adminService.update(admin);
@@ -157,16 +153,8 @@ public class UserController {
         // Example usage: Sending an email
         String to = email;
         String subject = "Réinitialisation du mot de passe";
-        String body = "<html>"
-                + "<body>"
-                + "<p>Cher utilisateur,</p>"
-                + "<p>Nous avons reçu une demande de réinitialisation de votre mot de passe. Veuillez cliquer sur le lien ci-dessous pour procéder au changement de votre mot de passe :</p>"
-                + "<p><a href=\"http://localhost:4200/reset-password\">Réinitialiser le mot de passe</a></p>"
-                + "<p>Si vous n'avez pas demandé cette réinitialisation de mot de passe, veuillez ignorer cet e-mail.</p>"
-                + "<p>Cordialement,<br>"
-                + "Ennajim</p>"
-                + "</body>"
-                + "</html>";
+        int x = 0 ;
+        String body = "Bonjour voici votre code" + x ;
 
         if (userService.loadUserByemail(email) != null) {
             emailService.sendEmail(to, subject, body);
@@ -265,15 +253,6 @@ public class UserController {
     }
 
 
-    @GetMapping("/company/all")
-    public List<Company> getAllCompany() {
-        return companyService.getAllC();
-    }
-
-    @GetMapping("/company/count")
-    public Long CompanyCount() {
-        return companyService.count();
-    }
 
     @GetMapping("/admin/count")
     public long AdminCount() {
@@ -281,27 +260,7 @@ public class UserController {
     }
 
 
-    @GetMapping("/company/{id}")
-    public Optional<Company> GetCompanyById(@PathVariable("id") Long id) {
-        return companyService.getCompanyById(id);
-    }
 
-    @GetMapping("/company/email/{email}")
-    public CompanyDto getCompanyByEmail(@PathVariable("email") String email) {
-        Company company = companyService.getAllC().stream()
-               .filter(c -> c.getEmail().equals(email))
-                .findFirst()
-                .orElse(null);
-
-        if (company != null) {
-            ModelMapper modelMapper = new ModelMapper();
-            CompanyDto companyDto = modelMapper.map(company, CompanyDto.class);
-            return companyDto;
-        } else {
-            return null;
-        }
-
-    }
     @GetMapping("/admin/email/{email}")
     public AdminDto getAdminbyEmail(@PathVariable("email") String email) {
        Admin admin = adminService.getAllA().stream()
@@ -317,17 +276,8 @@ public class UserController {
             return null;
         }
     }
-    @PostMapping("/company")
-    public ResponseEntity<Void> SaveCompany(@RequestBody Company company) {
-        userService.SaveCompany(company);
-        HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(URI.create("/company/" + company.getId()));
-        return new ResponseEntity<>(headers, HttpStatus.CREATED);
-    }
-        @DeleteMapping("/company/{Id}")
-    public void deleteByIdCompany(@PathVariable(name = "Id") Long Id) {
-        companyService.deleteByIdCompany(Id);
-    }
+
+
     @PostMapping("/admin")
     public ResponseEntity<Void> Saveadmin(@RequestBody Admin admin) {
         userService.Saveadmin(admin);

@@ -5,6 +5,7 @@ import com.example.userms.entity.AppRole;
 import com.example.userms.entity.Client;
 import com.example.userms.entity.Company;
 import com.example.userms.repository.UserRepository;
+import com.example.userms.services.CompanyService;
 import com.example.userms.services.UserService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -54,7 +55,7 @@ public class UserMsApplication {
     }
 
     @Bean
-    CommandLineRunner commandLineRunner (UserService userService){
+    CommandLineRunner commandLineRunner (UserService userService, CompanyService companyService){
         LocalDateTime localDateTime = LocalDateTime.now();
         Date date = Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
 
@@ -75,10 +76,8 @@ public class UserMsApplication {
                 "khalil123",
                 "mateur",
                 "24894751",
-                "Administrateur",
-                null,
-                null,
-                "aikhalil",
+                "Administrateur",null,
+                "AI COMAPANY",
                 "informatique",
                 new ArrayList<>()
 
@@ -169,7 +168,7 @@ public class UserMsApplication {
             userService.SaveUser(u1);
             userService.SaveUser(u4);
             userService.SaveUser(u5);
-            userService.SaveCompany(c1);
+            companyService.SaveCompany(c1);
             userService.Saveadmin(admin1);
             userService.Saveadmin(a1);
             userService.addRoletoadmin("admin","super");

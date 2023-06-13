@@ -21,14 +21,16 @@ import java.util.Optional;
 public class CompanyServiceImpl implements CompanyService {
 
     @Autowired
-    private companyRepository companyRepository ;
+    private companyRepository companyRepository;
 
     @Autowired
-    private CustomFileRepository customFileRepository ;
+    private CustomFileRepository customFileRepository;
     @Autowired
     private RoleRepository roleRepository;
     @Autowired
-    private  PasswordEncoder passwordEncoder;
+    private PasswordEncoder passwordEncoder;
+
+
     @Override
     public List<Company> getAllC() {
         return companyRepository.findAll();
@@ -51,46 +53,46 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
-    public long count(){
+    public long count() {
         return companyRepository.count();
     }
 
     @Override
     public void update(Company company) {
-       Company company1 =companyRepository.findByEmail(company.getEmail());
-       if (company.getNameofCompany()!=null){
-           company1.setNameofCompany(company.getNameofCompany());
-       }
-        if (company.getAddress()!=null){
+        Company company1 = companyRepository.findByEmail(company.getEmail());
+        if (company.getNameofCompany() != null) {
+            company1.setNameofCompany(company.getNameofCompany());
+        }
+        if (company.getAddress() != null) {
             company1.setAddress(company.getAddress());
         }
-        if (company.getAppRoles()!=null){
+        if (company.getAppRoles() != null) {
             company1.setAppRoles(company.getAppRoles());
         }
-        if (company.getEmail()!=null){
+        if (company.getEmail() != null) {
             company1.setEmail(company.getEmail());
         }
-        if (company.getDomaineofActivity()!=null){
+        if (company.getDomaineofActivity() != null) {
             company1.setDomaineofActivity(company.getDomaineofActivity());
         }
-        if (company.getNameofResponsible()!=null){
+        if (company.getNameofResponsible() != null) {
             company1.setNameofResponsible(company.getNameofResponsible());
         }
-        if (company.getPassword()!=null){
+        if (company.getPassword() != null) {
             company1.setPassword(passwordEncoder.encode(company.getPassword()));
         }
-        if (company.getPhone_number()!=null){
+        if (company.getPhone_number() != null) {
             company1.setPhone_number(company.getPhone_number());
         }
         companyRepository.save(company1);
-        addRoletoCompany(company1.getEmail(),"company");
+        addRoletoCompany(company1.getEmail(), "company");
         System.out.println(companyRepository.findByEmail(company1.getEmail()));
     }
 
     @Override
     public void addRoletoCompany(String email, String roleName) {
-        Company company=companyRepository.findByEmail(email);
-        AppRole appRole=roleRepository.findByRoleName(roleName);
+        Company company = companyRepository.findByEmail(email);
+        AppRole appRole = roleRepository.findByRoleName(roleName);
         company.getAppRoles().add(appRole);
         companyRepository.save(company);
         System.out.println(company);
@@ -133,6 +135,42 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
 
+    @Override
+    public void SaveCompany(Company company) {
+        company.setPassword(passwordEncoder.encode(company.getPassword()));
+        companyRepository.save(company);
+        addRoletoCompany(company.getEmail(), "company");
+        System.out.println(companyRepository.findByEmail(company.getEmail()));
 
+    }
+
+
+    @Override
+    public Company saveCompany(MultipartFile picture_file, Long id, String email, String address, String phone_number, String password, String domaineofActivity, String nameofResponsible, String nameofCompany) throws Exception {
+        Company company = new Company();
+        if (id != null) {
+            company = this.companyRepository.findById(id).get();
+        }
+        company.setEmail(email);
+        company.setAddress(address);
+        company.setPhone_number(phone_number);
+        company.setPassword(password);
+        company.setDomaineofActivity(domaineofActivity);
+        company.setNameofResponsible(nameofResponsible);
+        company.setNameofCompany(nameofCompany);
+
+
+        if (picture_file != null) {
+            String pîcture_fileName = StringUtils.cleanPath(picture_file.getOriginalFilename());
+            CustomFile picture = new CustomFile(pîcture_fileName, Base64.getEncoder().encodeToString(picture_file.getBytes()));
+            CustomFile savedPicture = this.customFileRepository.save(picture);
+            company.setPicture(savedPicture);
+        }
+        company = this.companyRepository.save(company);
+
+        addRoletoCompany(company.getEmail(), "company");
+        System.out.println(company);
+        return company;
+    }
 
 }

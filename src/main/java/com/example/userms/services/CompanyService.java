@@ -22,6 +22,8 @@ public interface CompanyService {
     long count();
     void  update(Company company);
     void addRoletoCompany(String email,String roleName );
+    void SaveCompany(Company company) ;
+    Company saveCompany(MultipartFile picture_file, Long id , String email , String address,String phone_number,String password,String domaineofActivity , String nameofResponsible,String nameofCompany)throws Exception;
 
     Company updateCompany(MultipartFile pictureFile, Long id, String nameofCompany, String domaineofActivity, String email, String nameofResponsible, String address, String phoneNumber, String appRoles, String password) throws Exception;
 }

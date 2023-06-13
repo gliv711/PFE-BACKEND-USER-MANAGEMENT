@@ -41,7 +41,7 @@ public class Client extends Lambda {
      private CustomFile picture;
 
      public Client(String email, String password, String address, String phone_number, String role, String image, Long id, String lastName, String name, String domain, String region, Date BirthDate, Date startofStudy, Date endofStudy, Date startofWork, Date endofWork, String university, Collection<AppRole> appRoles) {
-         super(email, password, address, phone_number, role, image);
+         super(email, password, address, phone_number, role);
          this.id = id;
          LastName = lastName;
          Name = name;

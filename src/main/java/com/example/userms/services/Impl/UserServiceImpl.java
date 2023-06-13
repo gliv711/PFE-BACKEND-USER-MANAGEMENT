@@ -86,6 +86,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         System.out.println(userRepository.findByEmail(client.getEmail()));
 
     }
+
     @Override
     public Client SaveUser (MultipartFile picture_file, Long id, String Name, String LastName, String email,  String password) throws Exception {
         Client client =new Client();
@@ -133,19 +134,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 //
 //    }
 
-    @Override
-    public void SaveCompany(Company company) {
-        company.setPassword(passwordEncoder.encode(company.getPassword()));
-        companyRepository.save(company);
-        addRoletoCompany(company.getEmail(),"company");
-        System.out.println(companyRepository.findByEmail(company.getEmail()));
 
-    }
 
-    @Override
-    public Company saveCompany(MultipartFile picture_file, Long id, String email, String address, String phone_number, String password, String domaineofActivity, String nameofResponsible, String nameofCompany) throws Exception {
-return new Company();
-    }
+
     @Override
     public Company updateCompany(MultipartFile picture_file, Long id, String email, String address, String phone_number, String password, String domaineofActivity, String nameofResponsible, String nameofCompany) {
         return new Company();
