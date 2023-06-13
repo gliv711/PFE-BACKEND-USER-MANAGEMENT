@@ -144,51 +144,85 @@ public class UserController {
     }
 
     }*/
+
     @PostMapping("/user/send-email/{email}")
-    public ResponseEntity<String> sendEmail(@PathVariable("email") String email) {
+    public ResponseEntity<String> sendEmail(@PathVariable("email") String email, HttpSession session) {
+        // Check if session contains information
+        if (session.getAttribute("userRandomInfo") != null) {
+            // Remove existing information from the session
+            session.removeAttribute("userRandomInfo");
+        }
+
         Random random = new Random();
         int randomNumber = random.nextInt(90000) + 10000;
+
         // Example usage: Sending an email
         String to = email;
         String subject = "Réinitialisation du mot de passe";
+        String body = "Bonjour, voici votre code : " + randomNumber;
 
-        String body = "Bonjour voici votre code" + randomNumber;
         UserRandomInfo userRandomInfo = new UserRandomInfo();
         userRandomInfo.setEmail(email);
         userRandomInfo.setRandomNumber(randomNumber);
 
         session.setAttribute("userRandomInfo", userRandomInfo);
+
         System.out.println(userRandomInfo.getRandomNumber());
         System.out.println(userRandomInfo.getEmail());
 
-
-
         if (userService.loadUserByemail(email) != null) {
             emailService.sendEmail(to, subject, body);
-            return ResponseEntity.ok("Email envoyé avec succès   " + " "+randomNumber);
+            return ResponseEntity.ok("Email envoyé avec succès " + randomNumber);
         }
+
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Utilisateur introuvable");
     }
-    @PostMapping("/user/verify-random-number/{number}/{email}")
-    public ResponseEntity<String> verifyRandomNumber(
-            @PathVariable("number") int number,
-            @PathVariable("email") String email,
-            HttpSession session) {
 
-        UserRandomInfo userRandomInfo = (UserRandomInfo) session.getAttribute("userRandomInfo");
 
-        if (userRandomInfo != null &&
-                number == userRandomInfo.getRandomNumber() &&
-                email.equals(userRandomInfo.getEmail())) {
-            // La valeur entrée par l'utilisateur correspond au randomNumber et à l'email
-            // Faites ici ce que vous devez faire lorsque la vérification réussit
-            return ResponseEntity.ok("Le numéro et l'email sont corrects !");
-        } else {
-            // La valeur entrée par l'utilisateur ne correspond pas au randomNumber ou à l'email
-            // Faites ici ce que vous devez faire lorsque la vérification échoue
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Le numéro ou l'email est incorrect !");
-        }
+
+    //    @PostMapping("/user/verify/{email}/{code}")
+//    public ResponseEntity<String> checkcode(@PathVariable("email") String email, @PathVariable("code") String code, HttpSession session) {
+//        UserRandomInfo userRandomInfo = (UserRandomInfo) session.getAttribute("userRandomInfo");
+//
+//        if (email.equals(userRandomInfo.getEmail()) && code.equals(userRandomInfo.getRandomNumber())) {
+//            session.removeAttribute("userRandomInfo"); // Delete the stored attribute
+//
+//            return ResponseEntity.ok("code correct");
+//        } else {
+//
+//            return ResponseEntity.badRequest().body("Invalid email, code, or userRandomInfo");
+//        }
+//    }
+@PostMapping("/user/verify/{email}/{number}")
+public ResponseEntity<Map<String, String>> verifyRandomNumber(
+        @PathVariable("number") int number,
+        @PathVariable("email") String email,
+        HttpSession session) {
+
+    UserRandomInfo userRandomInfo = (UserRandomInfo) session.getAttribute("userRandomInfo");
+
+    if (userRandomInfo != null &&
+            number == userRandomInfo.getRandomNumber() &&
+            email.equals(userRandomInfo.getEmail())) {
+        // The user entered value matches the randomNumber and email
+        // Do whatever you need to do when the verification succeeds
+
+        // Return a JSON response indicating success
+        Map<String, String> response = new HashMap<>();
+        response.put("message", "Le numéro et l'email sont corrects !");
+        session.removeAttribute("userRandomInfo"); // Delete the stored attribute
+
+        return ResponseEntity.ok(response);
+    } else {
+        // The user entered value does not match the randomNumber or email
+        // Do whatever you need to do when the verification fails
+
+        // Return a JSON response indicating failure
+        Map<String, String> response = new HashMap<>();
+        response.put("error", "Le numéro ou l'email est incorrect !");
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
+}
 
 
 

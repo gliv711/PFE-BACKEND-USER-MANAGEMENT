@@ -86,9 +86,6 @@ public class AdminServiceImpl implements AdminService {
 
 
 
-
-
-
     }
 
     @Override
@@ -102,7 +99,7 @@ public class AdminServiceImpl implements AdminService {
             admin.setEmail(email);
             admin.setAddress(address);
             admin.setPhone_number(phone_number);
-            admin.setPassword(password);
+            admin.setPassword(passwordEncoder.encode(admin.getPassword()));
 
 
             if (picture_file != null) {
@@ -111,6 +108,7 @@ public class AdminServiceImpl implements AdminService {
                 CustomFile savedPicture = this.customFileRepository.save(picture);
                 admin.setPicture(savedPicture);
             }
+
 
 
             admin = this.adminRepository.save(admin);
