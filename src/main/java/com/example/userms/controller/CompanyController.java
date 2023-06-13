@@ -88,8 +88,9 @@ public class CompanyController {
                                @Nullable @RequestParam("nameofResponsible")String nameofResponsible,
                             @Nullable @RequestParam("phone_number") String phone_number,
                             @Nullable @RequestParam("password") String password) throws Exception {
+        return this.companyService.saveCompany(picture_file,id,email,address,phone_number,password,domaineofActivity,nameofResponsible,nameofCompany);
 
-        return this.companyService.saveCompany(picture_file, id, email, password,address,phone_number,domaineofActivity,nameofCompany,nameofResponsible);
+//        return this.companyService.saveCompany(picture_file, id, email, password,address,phone_number,domaineofActivity,nameofCompany,nameofResponsible);
     }
 
 }
