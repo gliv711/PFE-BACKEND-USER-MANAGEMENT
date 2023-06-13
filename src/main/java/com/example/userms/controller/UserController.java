@@ -13,6 +13,7 @@ import com.example.userms.entity.Client;
 import com.example.userms.entity.Company;
 import com.example.userms.model.UserRandomInfo;
 import com.example.userms.repository.AdminRepository;
+import com.example.userms.repository.UserRepository;
 import com.example.userms.services.AdminService;
 import com.example.userms.services.CompanyService;
 import com.example.userms.services.Impl.EmailService;
@@ -25,6 +26,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.web.multipart.MultipartFile;
@@ -54,6 +56,8 @@ public class UserController {
     private EmailService emailService;
     @Autowired
     private UserService userService;
+   @Autowired
+    PasswordEncoder passwordEncoder;
 
 
 
@@ -61,6 +65,8 @@ public class UserController {
     private AdminService adminService;
     @Autowired
     private HttpSession session;
+    @Autowired
+    UserRepository userRepository;
 
 
     @GetMapping("/user/all")
@@ -177,8 +183,61 @@ public class UserController {
 
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Utilisateur introuvable");
     }
+<<<<<<< Updated upstream
+=======
 
 
+
+
+
+    //    @PostMapping("/user/verify/{email}/{code}")
+//    public ResponseEntity<String> checkcode(@PathVariable("email") String email, @PathVariable("code") String code, HttpSession session) {
+//        UserRandomInfo userRandomInfo = (UserRandomInfo) session.getAttribute("userRandomInfo");
+//
+//        if (email.equals(userRandomInfo.getEmail()) && code.equals(userRandomInfo.getRandomNumber())) {
+//            session.removeAttribute("userRandomInfo"); // Delete the stored attribute
+//
+//            return ResponseEntity.ok("code correct");
+//        } else {
+//
+//            return ResponseEntity.badRequest().body("Invalid email, code, or userRandomInfo");
+//        }
+//    }
+@PostMapping("/user/verify/{email}/{number}")
+public ResponseEntity<Map<String, String>> verifyRandomNumber(
+        @PathVariable("number") int number,
+        @PathVariable("email") String email,
+        HttpSession session) {
+
+    UserRandomInfo userRandomInfo = (UserRandomInfo) session.getAttribute("userRandomInfo");
+
+    if (userRandomInfo != null &&
+            number == userRandomInfo.getRandomNumber() &&
+            email.equals(userRandomInfo.getEmail())) {
+        Client client=userService.loadUserByemail(userRandomInfo.getEmail());
+
+
+        // Return a JSON response indicating success
+        Map<String, String> response = new HashMap<>();
+        response.put("message", "Le numéro et l'email sont corrects !");
+//        session.removeAttribute("userRandomInfo"); // Delete the stored attribute
+
+        return ResponseEntity.ok(response);
+    } else {
+
+        Map<String, String> response = new HashMap<>();
+        response.put("error", "Le numéro ou l'email est incorrect !");
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+    }
+}
+    @PostMapping("/user/update-password")
+    public ResponseEntity<Map<String, String>> updatePassword(
+            @RequestParam("newPassword") String newPassword,
+            HttpSession session) {
+>>>>>>> Stashed changes
+
+
+<<<<<<< Updated upstream
 
     //    @PostMapping("/user/verify/{email}/{code}")
 //    public ResponseEntity<String> checkcode(@PathVariable("email") String email, @PathVariable("code") String code, HttpSession session) {
@@ -221,6 +280,39 @@ public ResponseEntity<Map<String, String>> verifyRandomNumber(
         Map<String, String> response = new HashMap<>();
         response.put("error", "Le numéro ou l'email est incorrect !");
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+=======
+        if (userRandomInfo != null) {
+            Client client = userService.loadUserByemail(userRandomInfo.getEmail());
+
+            if (client != null) {
+                System.out.println(client);
+                if(client.getPassword()!=null){
+                String encodedPassword = passwordEncoder.encode(newPassword);
+
+
+                client.setPassword(encodedPassword);
+                userRepository.save(client);}
+
+
+                session.removeAttribute("userRandomInfo");
+
+                // Retourner une réponse JSON indiquant le succès
+                Map<String, String> response = new HashMap<>();
+                response.put("message", "Mot de passe mis à jour avec succès !");
+                return ResponseEntity.ok(response);
+            } else {
+                // L'utilisateur n'existe pas dans la base de données
+                Map<String, String> response = new HashMap<>();
+                response.put("error", "Utilisateur introuvable !");
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+            }
+        } else {
+            // L'attribut de session n'existe pas ou a expiré
+            Map<String, String> response = new HashMap<>();
+            response.put("error", "Session expirée ou invalide !");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        }
+>>>>>>> Stashed changes
     }
 }
 

@@ -16,6 +16,8 @@ public class MailConfig {
         mailSender.setUsername("d5559c9c16459c");
         mailSender.setPassword("22806b490251b7");
 
+
+
         Properties props = mailSender.getJavaMailProperties();
         props.put("mail.smtp.auth", true);
         props.put("mail.smtp.starttls.enable", true);
