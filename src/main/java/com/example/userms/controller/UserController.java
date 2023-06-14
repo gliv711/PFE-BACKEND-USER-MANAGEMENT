@@ -35,6 +35,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.ws.rs.Path;
 import java.io.IOException;
 import java.net.URI;
 import java.util.*;
@@ -483,6 +484,12 @@ public class UserController {
     }
 
 
+
+    @GetMapping("/user/domain/{domain}")
+    public List<Client> getUsersbyDomain(@PathVariable("domain") String domain){
+        return userService.getUsersBydomain(domain);
+
+    }
 
 
 

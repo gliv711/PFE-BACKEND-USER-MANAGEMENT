@@ -270,6 +270,12 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public Admin getAdminByEmail(String email){
         return adminRepository.findByEmail(email);
     }
+
+    @Override
+    public List<Client> getUsersBydomain(String domain) {
+        return userRepository.findByDomain(domain);
+    }
+
     public boolean checkIfUserEmailExists(String email) {
         Client user = userRepository.findByEmail(email);
         Company company = companyRepository.findByEmail(email);
