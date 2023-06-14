@@ -75,6 +75,16 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
 
     @Override
+    public void SaveCompany(Company company) {
+
+    }
+
+    @Override
+    public Company saveCompany(MultipartFile picture_file, Long id, String email, String address, String phone_number, String password, String domaineofActivity, String nameofResponsible, String nameofCompany) throws Exception {
+        return null;
+    }
+
+    @Override
     public void SaveUser(Client client) {
         System.out.println(client);
         userRepository.delete(client);
@@ -88,7 +98,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public Client SaveUser (MultipartFile picture_file, Long id, String Name, String LastName, String email,  String password) throws Exception {
+    public Client SaveUser (MultipartFile picture_file, Long id, String Name, String LastName, String email, String password) throws Exception {
         Client client =new Client();
           if(id!=null){
                  client = this.userRepository.findById(id).get();
@@ -97,7 +107,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
           client.setName(Name);
           client.setLastName(LastName);
           client.setEmail(email);
-          client.setPassword(password);
+          client.setPassword(passwordEncoder.encode(password));
+
 
         if (picture_file != null) {
             String pîcture_fileName = StringUtils.cleanPath(picture_file.getOriginalFilename());
@@ -116,7 +127,41 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     }
 
+    @Override
+    public Client SaveUser(MultipartFile picture_file, String email, String password, String address,
+                           String phone_number, Long id, String lastName, String name,
+                           String domain, String region, Date BirthDate, Date startofStudy, Date endofStudy
+            , Date startofWork, Date endofWork, String university) throws Exception {
+        Client client =new Client();
+        if(id!=null){
+            client = this.userRepository.findById(id).get();
 
+        }
+        client.setName(name);
+        client.setLastName(lastName);
+        if(email!=null){
+        client=this.userRepository.findByEmail(email);}
+        if(client.getPassword()==null){
+        client.setPassword(passwordEncoder.encode(password));}
+        client.setAddress(address);
+        client.setPhone_number(phone_number);
+        client.setDomain(domain);
+        client.setRegion(region);client.setBirthDate(BirthDate);client.setStartofStudy(startofStudy);
+        client.setEndofStudy(endofStudy);client.setStartofWork(startofWork);client.setEndofWork(endofWork);
+        client.setUniversity(university);
+        if (picture_file != null) {
+            String pîcture_fileName = StringUtils.cleanPath(picture_file.getOriginalFilename());
+            CustomFile picture = new CustomFile(pîcture_fileName, Base64.getEncoder().encodeToString(picture_file.getBytes()));
+            CustomFile savedPicture = this.customFileRepository.save(picture);
+            client.setPicture(savedPicture);
+        }
+
+       userRepository.save(client);
+
+        addRoletoUser(client.getEmail(), "user");
+        System.out.println(client);
+        return client;
+    }
 
 
 //    public void SaveCompany(MultipartFile picture_file,Long id, String nameofCompany, String domaineofActivity,String nameofResponsible, String email, Collection<AppRole> appRoles, String password) throws IOException {

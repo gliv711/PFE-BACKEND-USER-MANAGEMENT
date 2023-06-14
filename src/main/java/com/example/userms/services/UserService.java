@@ -9,15 +9,19 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 public interface UserService {
 
+    void SaveCompany(Company company) ;
+    Company saveCompany(MultipartFile picture_file, Long id , String email , String address,String phone_number,String password,String domaineofActivity , String nameofResponsible,String nameofCompany)throws Exception;
 
     void SaveUser(Client client) ;
 
     Client SaveUser(MultipartFile picture_file, Long id, String Name, String LastName, String email, String password) throws Exception;
+    Client SaveUser(MultipartFile picture_file, String email, String password, String address, String phone_number, Long id, String lastName, String name, String domain, String region, Date BirthDate, Date startofStudy, Date endofStudy, Date startofWork, Date endofWork, String university) throws Exception;
 
 
     List<Client> getAll();

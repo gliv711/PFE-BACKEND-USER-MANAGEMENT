@@ -22,6 +22,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -103,20 +104,45 @@ public class UserController {
                            @Nullable @RequestParam("appRoles") String appRoles,
                            @Nullable @RequestParam("password") String password) throws Exception {
 
-        return this.userService.SaveUser(picture_file, id, Name, LastName, email, password);
+        return this.userService.SaveUser( picture_file, id,  Name, LastName,  email,  password);
+    }
+    @PostMapping("/user/save")
+    public Client saveUser(@Nullable @RequestParam(name = "picture_file") MultipartFile picture_file,
+                           @Nullable @RequestParam("id") Long id,
+                           @Nullable @RequestParam("name") String name,
+                           @Nullable @RequestParam("lastName") String lastName,
+                           @Nullable @RequestParam("email") String email,
+                           @Nullable @RequestParam("address") String address,
+                           @Nullable @RequestParam("region") String region,
+                           @Nullable @RequestParam("phone_number") String phone_number,
+                           @Nullable @RequestParam("domain") String domain,
+                           @Nullable @RequestParam("university") String university,
+                           @Nullable @RequestParam("address") String adress,
+                           @Nullable @RequestParam("BirthDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date BirthDate,
+                           @Nullable @RequestParam("startofStudy") @DateTimeFormat(pattern = "yyyy-MM-dd") Date startofStudy,
+                           @Nullable @RequestParam("endofWork") @DateTimeFormat(pattern = "yyyy-MM-dd") Date endofWork,
+                           @Nullable @RequestParam("startofWork") @DateTimeFormat(pattern = "yyyy-MM-dd") Date startofWork,
+                           @Nullable @RequestParam("endofStudy") @DateTimeFormat(pattern = "yyyy-MM-dd") Date endofStudy,
+                           @Nullable @RequestParam("password") String password) throws Exception {
+
+        return this.userService.SaveUser(picture_file, email, password, address,
+                phone_number, id, lastName, name,
+                domain, region, BirthDate, startofStudy, endofStudy,
+                startofWork, endofWork, university);
     }
 
-    @PutMapping("/user")
-    public Client updateUser(
-            @RequestParam(name = "picture_file", required = false) MultipartFile pictureFile,
-            @RequestParam("id") Long id,
-            @RequestParam("name") String name,
-            @RequestParam("lastName") String lastName,
-            @RequestParam("email") String email,
-            @RequestParam("password") String password) throws Exception {
-
-        return this.userService.SaveUser(pictureFile, id, name, lastName, email, password);
-    }
+//    @PutMapping("/user")
+//    public Client updateUser(
+//            @RequestParam(name = "picture_file", required = false) MultipartFile pictureFile,
+//            @RequestParam("id") Long id,
+//            @RequestParam("name") String name,
+//            @RequestParam("lastName") String lastName,
+//            @RequestParam("email") String email,
+//
+//            @RequestParam("password") String password) throws Exception {
+//
+//        return this.userService.SaveUser(pictureFile, id, name, lastName, email, password);
+//    }
 
 
 
