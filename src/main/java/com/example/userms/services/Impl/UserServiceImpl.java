@@ -146,7 +146,10 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         client.setAddress(address);
         client.setPhone_number(phone_number);
         client.setDomain(domain);
-        client.setRegion(region);client.setBirthDate(BirthDate);client.setStartofStudy(startofStudy);
+        client.setRegion(region);
+        if(client.getBirthDate()==null){
+        client.setBirthDate(BirthDate);}
+        client.setStartofStudy(startofStudy);
         client.setEndofStudy(endofStudy);client.setStartofWork(startofWork);client.setEndofWork(endofWork);
         client.setUniversity(university);
         if (picture_file != null) {
