@@ -106,6 +106,27 @@ public class UserMsApplication {
                 date,
                 "FSB",new ArrayList<>()
         );
+        Client v1 = new Client(
+
+                "mawehebsaidani@gmail.com",
+                "123",
+                "14 janvier",
+                "21111111",
+                "Administrateur",
+
+                null,
+                "saidani",
+                "maweheb",
+                "informatique",
+                "TUNISIE",
+                date,
+                date,
+                date,
+                date,
+                date,
+                "FSB",new ArrayList<>()
+        );
+
 
 
 
@@ -166,6 +187,8 @@ public class UserMsApplication {
             userService.SaveUser(u1);
             userService.SaveUser(u4);
             userService.SaveUser(u5);
+            userService.SaveUser(v1);
+
             companyService.SaveCompany(c1);
             adminService.Saveadmin(admin1);
             adminService.Saveadmin(a1);
