@@ -154,10 +154,16 @@ public class CompanyServiceImpl implements CompanyService {
         company.setEmail(email);
         company.setAddress(address);
         company.setPhone_number(phone_number);
-        company.setPassword(password);
+
+
         company.setDomaineofActivity(domaineofActivity);
         company.setNameofResponsible(nameofResponsible);
         company.setNameofCompany(nameofCompany);
+        if(company.getPassword()==null){
+//            company.setPassword(password);
+        company.setPassword(passwordEncoder.encode(password));
+        }
+
 
 
         if (picture_file != null) {

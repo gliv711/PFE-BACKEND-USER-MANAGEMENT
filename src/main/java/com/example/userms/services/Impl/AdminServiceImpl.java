@@ -96,10 +96,14 @@ public class AdminServiceImpl implements AdminService {
                 admin = this.adminRepository.findById(id).get();
 
             }
+
             admin.setEmail(email);
             admin.setAddress(address);
             admin.setPhone_number(phone_number);
-            admin.setPassword(passwordEncoder.encode(admin.getPassword()));
+            if(admin.getPassword()==null){
+
+
+            admin.setPassword(passwordEncoder.encode(password));}
 
 
             if (picture_file != null) {
